@@ -1,3 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .nav-item {
+    @apply text-lg cursor-pointer hover:text-slate-500;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 block mt-8 border-2 border-slate-300 hover:bg-slate-100 transition-all hover:scale-105  duration-200;
+  }
+}
+
+@layer components {
+  .btn-secondary {
+    @apply px-4 py-2 block mt-8 border-2 bg-gray-800 border-none text-slate-50 hover:bg-black transition-all hover:scale-105  duration-200;
+  }
+}
+
 html,
 body {
   padding: 0;
@@ -13,14 +35,34 @@ a {
 
 * {
   box-sizing: border-box;
+  letter-spacing: 0.1em;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.card-shadow {
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.411);
+  border-top-left-radius: 10px;
+}
+
+/* =======================
+SECTION === 'SCROLLBAR STYLES' === SECTION
+======================= */
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
