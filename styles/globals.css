@@ -2,27 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  .nav-item {
-    @apply text-lg cursor-pointer hover:text-slate-500;
-  }
-}
-
-@layer components {
-  .btn-primary {
-    @apply px-4 py-2 block mt-8 border-2 border-slate-300 hover:bg-slate-100 transition-all hover:scale-105  duration-200;
-  }
-}
-
-@layer components {
-  .btn-secondary {
-    @apply px-4 py-2 block mt-8 border-2 bg-gray-800 border-none text-slate-50 hover:bg-black transition-all hover:scale-105  duration-200;
-  }
-}
+/* =======================
+SECTION === 'GENERAL STYLES' === SECTION
+======================= */
 
 html,
 body {
-  padding: 0;
+  padding: 0rem 1rem;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -38,9 +24,90 @@ a {
   letter-spacing: 0.1em;
 }
 
-.card-shadow {
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.411);
-  border-top-left-radius: 10px;
+/* =======================
+SECTION === 'NAV ITEMS' === SECTION
+======================= */
+
+@layer base {
+  .nav-item {
+    @apply text-lg cursor-pointer hover:text-slate-500 relative transition-all duration-200;
+  }
+}
+
+.nav-item::before {
+  content: '';
+  width: 0%;
+  height: 2px;
+  background-color: #0d0d0d;
+  position: absolute;
+  top: -10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-item:hover::before {
+  width: 100%;
+}
+
+.cart:hover::before {
+  width: 0%;
+}
+
+/* =======================
+SECTION === 'DARKMODE TOGGLE' === SECTION
+======================= */
+
+/* =======================
+SECTION === 'MAIN' === SECTION
+======================= */
+
+.main__product-content {
+  animation: appear 0.5s ease-in-out;
+}
+
+.card {
+  border: 1px solid black;
+  box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.192);
+  position: relative;
+  z-index: 1;
+}
+
+.card::before {
+  content: '';
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-color: white;
+  top: -2px;
+  left: -2px;
+  box-shadow: 2px 2px 2px 2px white;
+  border: 1px solid black;
+  border-left: none;
+  border-top: none;
+  background-image: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) calc(50% - 0.8px),
+    rgba(0, 0, 0, 1) 50%,
+    rgba(0, 0, 0, 0) calc(50% + 0.8px),
+    rgba(0, 0, 0, 0) 100%
+  );
+  z-index: 99;
+}
+
+/* =======================
+SECTION === 'BUTTONS' === SECTION
+======================= */
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 block mt-8 border-2 bg-gray-800 border-none text-slate-50 hover:bg-black transition-all hover:scale-105  duration-200;
+  }
+}
+
+@layer components {
+  .btn-secondary {
+    @apply px-4 py-2 block mt-8 border-2 border-slate-300 hover:bg-slate-100 transition-all hover:scale-105  duration-200;
+  }
 }
 
 /* =======================
@@ -49,20 +116,123 @@ SECTION === 'SCROLLBAR STYLES' === SECTION
 
 /* width */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  @apply bg-slate-200;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  @apply bg-gray-400;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* =======================
+SECTION === 'RANGE INPUT STYLING' === SECTION
+======================= */
+
+input[type='range'] {
+  -webkit-appearance: none;
+  width: 100%;
+}
+input[type='range']:focus {
+  outline: none;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #fff;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type='range']::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 20px;
+  width: 20px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -8px;
+}
+input[type='range']:focus::-webkit-slider-runnable-track {
+  background: #fff;
+}
+input[type='range']::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #fff;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+input[type='range']::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type='range']::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type='range']::-ms-fill-lower {
+  background: #fff;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type='range']::-ms-fill-upper {
+  background: #fff;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type='range']::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+input[type='range']:focus::-ms-fill-lower {
+  background: #fff;
+}
+input[type='range']:focus::-ms-fill-upper {
+  background: #fff;
+}
+
+/* =======================
+SECTION === 'ANIMATIONS' === SECTION
+======================= */
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

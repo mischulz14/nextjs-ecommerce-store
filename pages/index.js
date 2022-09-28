@@ -5,27 +5,47 @@ import origamiFigures from '../data/data';
 export default function Home() {
   const [rendered, setRendered] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState(origamiFigures);
-  const [filteredPrice, setFilteredPrice] = useState('20');
+  const [filteredPrice, setFilteredPrice] = useState('50');
   const [filteredDifficulty, setFilteredDifficulty] = useState('10');
+
+  function handleFilter(event) {
+    event.preventDefault();
+
+    const arrayCopy = [...origamiFigures];
+
+    const priceFilteredArray = arrayCopy.filter(
+      (origami) => origami.price < filteredPrice,
+    );
+    const difficultyFilteredArray = priceFilteredArray.filter(
+      (origami) => origami.difficulty < filteredDifficulty,
+    );
+
+    setFilteredProducts(difficultyFilteredArray);
+  }
+
   return (
     <div className="flex">
-      <div className="main__filter-sidebar basis-1/4 flex flex-col items-center text-center bg-slate-50">
-        <h1 className="text-xl font-semibold mt-6">Filters</h1>
-        <form className="border-2 border-black p-10">
-          <label htmlFor="price" className="block">
+      <div className="main__filter-sidebar px-4 basis-1/4 flex flex-col items-center text-center border-r-2 border-slate-200 border-l-2 border-b-2">
+        <h1 className="text-xl font-semibold mt-12 mb-6">Filters</h1>
+        <form
+          className="border-2 border-slate-600 p-10"
+          onSubmit={handleFilter}
+        >
+          <label htmlFor="price" className="block font-semibold mb-2">
             Price: {filteredPrice}
           </label>
           <input
+            className="mb-8"
             id="price"
             type="range"
             min="0"
-            max="20"
-            onChange={(e) => {
-              setFilteredPrice(e.currentTarget.value);
+            max="50"
+            onChange={(event) => {
+              setFilteredPrice(parseInt(event.currentTarget.value));
             }}
             value={filteredPrice}
           />
-          <label htmlFor="difficulty" className="block">
+          <label htmlFor="difficulty" className="block font-semibold mb-2">
             Difficulty: {filteredDifficulty}
           </label>
           <input
@@ -33,22 +53,32 @@ export default function Home() {
             type="range"
             min="0"
             max="10"
-            onChange={(e) => {
-              setFilteredDifficulty(e.currentTarget.value);
+            onChange={(event) => {
+              setFilteredDifficulty(parseInt(event.currentTarget.value));
             }}
             value={filteredDifficulty}
           />
 
-          <button className="btn-secondary">Apply filters</button>
+          <button className="btn-primary">Apply filters</button>
+          <button
+            className="btn-secondary w-[140px]"
+            onClick={() => {
+              setFilteredPrice('50');
+              setFilteredDifficulty('10');
+              setFilteredProducts(origamiFigures);
+            }}
+          >
+            Remove filters
+          </button>
         </form>
       </div>
-      <div className="main__product-content basis-3/4 flex p-9 h-[750px] overflow-y-scroll">
+      <div className="main__product-content basis-3/4 flex p-8 h-[750px] overflow-y-scroll border-slate-200 border-b-2">
         <ul className="flex flex-wrap gap-12">
           {filteredProducts.map((figure) => {
             return (
               <li
                 key={figure.id}
-                className="px-6 h-[400px] min-w-[230px] grow bg-white flex items-center justify-center flex-col card-shadow transition-all cursor-pointer"
+                className="px-6 mb-2 h-[400px] min-w-[230px] grow bg-white flex items-center justify-center flex-col card transition-all cursor-pointer"
               >
                 <Image
                   src={figure.activePicture}
