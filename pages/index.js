@@ -72,56 +72,61 @@ export default function Home() {
           </button>
         </form>
       </div>
-      <div className="main__product-content basis-3/4 flex p-8 h-[750px] overflow-y-scroll border-slate-200 border-b-2">
-        <ul className="flex flex-wrap gap-12">
-          {filteredProducts.map((figure) => {
-            return (
-              <li
-                key={figure.id}
-                className="px-6 mb-2 h-[400px] min-w-[230px] grow bg-white flex items-center justify-center flex-col card transition-all cursor-pointer"
-              >
-                <Image
-                  src={figure.activePicture}
-                  width="100"
-                  height="100"
-                  className="product pb-10 block hover:-translate-y-1 transition-all cursor-pointer"
-                  alt={figure.name}
-                />
-                <span className="block w-[100px] text-center py-4 border-t-2 border-black text-2xl font-bold">
-                  {figure.name}
-                </span>
-                <span className="block mb-6">
-                  Difficulty: {figure.difficulty}
-                </span>
-                <div className="flex gap-8 items-center">
-                  <div className="flex gap-1 min-w-[60px]">
-                    <button
-                      onClick={() => {
-                        figure.activePicture = figure.firstPicture;
-                        figure.activePrice = figure.price;
-                        setRendered((prev) => !prev);
-                      }}
-                      className="w-6 h-6 bg-white rounded-full border-2 border-slate-400"
-                    />
-                    <button
-                      onClick={() => {
-                        figure.activePicture = figure.secondPicture;
-                        figure.activePrice = figure.priceColor;
-                        setRendered((prev) => !prev);
-                      }}
-                      className="w-6 h-6 rounded-full border-2 border-slate-400"
-                      style={{ backgroundColor: figure.secondColor }}
-                    />
-                  </div>
-                  <span className="text-lg font-bold">
-                    {figure.activePrice}$
+      <div>
+        <h1 className="text-xl font-light mt-6 text-center">
+          PICK YOUR ORIGAMI
+        </h1>
+        <div className="main__product-content basis-3/4 flex p-8 h-[750px] overflow-y-scroll border-slate-200 border-b-2">
+          <ul className="flex flex-wrap gap-12">
+            {filteredProducts.map((figure) => {
+              return (
+                <li
+                  key={figure.id}
+                  className="px-6 mb-2 h-[400px] min-w-[230px] grow bg-white flex items-center justify-center flex-col card transition-all cursor-pointer"
+                >
+                  <Image
+                    src={figure.activePicture}
+                    width="100"
+                    height="100"
+                    className="product pb-10 block hover:-translate-y-1 transition-all cursor-pointer"
+                    alt={figure.name}
+                  />
+                  <span className="block w-[100px] text-center py-4 border-t-2 border-black text-2xl font-bold">
+                    {figure.name}
                   </span>
-                </div>
-                <button className="btn-primary">Add to cart</button>
-              </li>
-            );
-          })}
-        </ul>
+                  <span className="block mb-6">
+                    Difficulty: {figure.difficulty}
+                  </span>
+                  <div className="flex gap-8 items-center">
+                    <div className="flex gap-1 min-w-[60px]">
+                      <button
+                        onClick={() => {
+                          figure.activePicture = figure.firstPicture;
+                          figure.activePrice = figure.price;
+                          setRendered((prev) => !prev);
+                        }}
+                        className="w-6 h-6 bg-white rounded-full border-2 border-slate-400"
+                      />
+                      <button
+                        onClick={() => {
+                          figure.activePicture = figure.secondPicture;
+                          figure.activePrice = figure.priceColor;
+                          setRendered((prev) => !prev);
+                        }}
+                        className="w-6 h-6 rounded-full border-2 border-slate-400"
+                        style={{ backgroundColor: figure.secondColor }}
+                      />
+                    </div>
+                    <span className="text-lg font-bold">
+                      {figure.activePrice}$
+                    </span>
+                  </div>
+                  <button className="btn-primary">Add to cart</button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </div>
   );

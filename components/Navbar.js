@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Navbar = () => {
   return (
-    <nav className="nav max-w-6xl mx-auto mt-8 pb-1 flex justify-between items-center relative border-b-2 border-black">
+    <nav className="nav max-w-6xl mx-auto mt-2 pb-1 flex justify-between items-center relative border-b-2 border-black">
       <Link href="/" className="logo text-3xl">
         <div className="cursor-pointer ml-8 text-3xl">
           <span className=" font-thin">origa</span>
