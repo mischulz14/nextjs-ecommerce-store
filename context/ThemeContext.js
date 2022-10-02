@@ -5,17 +5,14 @@ const ThemeContext = createContext();
 function ThemeProvider(props) {
   const [darkMode, setDarkMode] = useState(false);
 
-  function toggleTheme() {
+  function toggleThemeAndSetLocalStorage() {
     darkMode ? setDarkMode(false) : setDarkMode(true);
-    window.localStorage.setItem('darkMode', !darkMode);
+    window.localStorage.setItem('darkMode', !context.darkMode);
   }
 
   useEffect(() => {
-    if (localStorage.getItem('darkMode') === 'true') {
-      setDarkMode(true);
-    } else {
-      setDarkMode(false);
-    }
+    const darkModeOn = window.localStorage.getItem('darkMode');
+    setDarkMode(JSON.parse(darkModeOn));
   }, []);
 
   useEffect(() => {
@@ -26,7 +23,7 @@ function ThemeProvider(props) {
 
   const value = {
     darkMode,
-    toggleTheme: toggleTheme,
+    toggleThemeAndSetLocalStorage,
   };
   return (
     <ThemeContext.Provider value={value}>
