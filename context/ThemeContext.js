@@ -7,7 +7,7 @@ function ThemeProvider(props) {
 
   function toggleThemeAndSetLocalStorage() {
     darkMode ? setDarkMode(false) : setDarkMode(true);
-    window.localStorage.setItem('darkMode', !context.darkMode);
+    window.localStorage.setItem('darkMode', !darkMode);
   }
 
   useEffect(() => {
