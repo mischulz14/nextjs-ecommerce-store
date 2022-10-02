@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 
 const Navbar = () => {

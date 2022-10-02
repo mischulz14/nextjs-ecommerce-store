@@ -6,8 +6,17 @@ function ThemeProvider(props) {
   const [darkMode, setDarkMode] = useState(false);
 
   function toggleTheme() {
-    setDarkMode(darkMode ? false : true);
+    darkMode ? setDarkMode(false) : setDarkMode(true);
+    window.localStorage.setItem('darkMode', !darkMode);
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('darkMode') === 'true') {
+      setDarkMode(true);
+    } else {
+      setDarkMode(false);
+    }
+  }, []);
 
   useEffect(() => {
     darkMode === true

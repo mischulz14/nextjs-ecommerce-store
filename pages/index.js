@@ -95,7 +95,7 @@ export default function Home() {
                   return (
                     <li
                       key={figure.id}
-                      className={`px-6 mb-2 h-[400px] min-w-[230px] grow bg-white flex items-center justify-center flex-col card transition-all dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 ${
+                      className={`px-6 mb-2 card h-[400px] min-w-[230px] grow bg-white flex items-center justify-center flex-col card transition-all dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 ${
                         context.darkMode ? 'dark' : ''
                       }`}
                     >
