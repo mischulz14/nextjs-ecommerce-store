@@ -10,6 +10,7 @@ export default function Home() {
   const [filteredProducts, setFilteredProducts] = useState(origamiFigures);
   const [filteredPrice, setFilteredPrice] = useState('50');
   const [filteredDifficulty, setFilteredDifficulty] = useState('10');
+  const [brightness, setBrightness] = useState(false);
   const context = useContext(ThemeContext);
 
   function handleFilter(event) {
@@ -127,6 +128,7 @@ export default function Home() {
                               figure.activePicture = figure.firstPicture;
                               figure.activePrice = figure.price;
                               setRendered((prev) => !prev);
+                              setBrightness(false);
                             }}
                             className="w-6 h-6 bg-white border-2 rounded-full border-slate-400"
                           />
@@ -135,6 +137,7 @@ export default function Home() {
                               figure.activePicture = figure.secondPicture;
                               figure.activePrice = figure.priceColor;
                               setRendered((prev) => !prev);
+                              setBrightness(true);
                             }}
                             className="w-6 h-6 border-2 rounded-full border-slate-400"
                             style={{ backgroundColor: figure.secondColor }}
