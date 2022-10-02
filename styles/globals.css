@@ -123,6 +123,7 @@ SECTION === 'MAIN' === SECTION
 }
 
 .image-wrapper img {
+  filter: drop-shadow(1px 1px 2px rgb(255, 255, 255));
 }
 
 /* =======================
@@ -258,6 +259,10 @@ input[type='range']:focus::-ms-fill-upper {
 SECTION === 'ANIMATIONS' === SECTION
 ======================= */
 
+.bottom-top {
+  animation: bottomTop 0.7s ease-out;
+}
+
 @keyframes appear {
   from {
     opacity: 0;
@@ -265,5 +270,14 @@ SECTION === 'ANIMATIONS' === SECTION
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes bottomTop {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translate(0);
   }
 }
