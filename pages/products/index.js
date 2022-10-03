@@ -2,6 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
+import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import origamiFigures from '../../data/data';
 
@@ -10,7 +11,8 @@ export default function Home() {
   const [filteredProducts, setFilteredProducts] = useState(origamiFigures);
   const [filteredPrice, setFilteredPrice] = useState('50');
   const [filteredDifficulty, setFilteredDifficulty] = useState('10');
-  const context = useContext(ThemeContext);
+  const themeContext = useContext(ThemeContext);
+  const productContext = useContext(ProductContext);
 
   function handleFilter(event) {
     event.preventDefault();
@@ -91,30 +93,33 @@ export default function Home() {
             </h1>
             <div>
               <ul className="flex flex-wrap gap-12">
-                {filteredProducts.map((figure) => {
+                {filteredProducts.map((product) => {
                   return (
                     <li
-                      key={figure.id}
+                      key={product.id}
                       className={`px-6 mb-2 card h-[400px] min-w-[230px] grow bg-white flex items-center justify-center flex-col card transition-all dark:border-white dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 ${
-                        context.darkMode ? 'dark' : ''
+                        themeContext.darkMode ? 'dark' : ''
                       }`}
                     >
-                      <Link href={`origami/${figure.id}`}>
+                      <Link
+                        data-test-id={`product-${product.id}`}
+                        href={`products/${product.id}`}
+                      >
                         <div className="flex flex-col items-center w-full mx-auto cursor-pointer">
                           <div className="image-wrapper">
                             <Image
-                              src={figure.activePicture}
+                              src={product.activePicture}
                               width="100"
                               height="100"
                               className="block pb-10 transition-all cursor-pointer product hover:-translate-y-1"
-                              alt={figure.name}
+                              alt={product.name}
                             />
                           </div>
                           <span className="block w-[100px] text-center py-4 border-t-2 border-black text-2xl font-bold dark:border-white">
-                            {figure.name}
+                            {product.name}
                           </span>
                           <span className="block mb-6">
-                            Difficulty: {figure.difficulty}
+                            Difficulty: {product.difficulty}
                           </span>
                         </div>
                       </Link>
@@ -122,29 +127,44 @@ export default function Home() {
                         <div className="flex gap-1 min-w-[60px]">
                           <button
                             onClick={() => {
-                              figure.activePicture = figure.firstPicture;
-                              figure.activePrice = figure.price;
+                              product.activePicture = product.firstPicture;
+
                               setRendered((prev) => !prev);
                             }}
                             className="w-6 h-6 bg-white border-2 rounded-full border-slate-400"
                           />
                           <button
                             onClick={() => {
-                              figure.activePicture = figure.secondPicture;
-                              figure.activePrice = figure.priceColor;
+                              product.activePicture = product.secondPicture;
+
                               setRendered((prev) => !prev);
                             }}
                             className="w-6 h-6 border-2 rounded-full border-slate-400"
-                            style={{ backgroundColor: figure.secondColor }}
+                            style={{ backgroundColor: product.secondColor }}
                           />
                         </div>
                         <span className="text-lg font-bold">
-                          {figure.activePrice}$
+                          {product.price}$
                         </span>
                       </div>
-                      <button className="btn-primary dark:bg-gray-900 dark:text-white dark:border-white">
-                        Add to cart
-                      </button>
+                      <button
+                        data-test-id="product-add-to-cart"
+                        onClick={() => {
+                          if (
+                            productContext.chosenProducts.find(
+                              (origami) => origami.id === product.id,
+                            )
+                          ) {
+                            return;
+                          }
+
+                          productContext.setChosenProducts([
+                            ...productContext.chosenProducts,
+                            product,
+                          ]);
+                        }}
+                        className="btn-primary dark:bg-gray-900 dark:text-white dark:border-white cart-btn"
+                      />
                     </li>
                   );
                 })}
