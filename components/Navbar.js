@@ -25,7 +25,7 @@ const Navbar = () => {
 
       <ul className="flex items-center justify-center gap-14">
         <li className="nav-item">
-          <Link href="/">
+          <Link href="/origami">
             <a>PRODUCTS</a>
           </Link>
         </li>

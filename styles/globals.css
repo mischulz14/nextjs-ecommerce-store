@@ -60,13 +60,14 @@ SECTION === 'NAV ITEMS' === SECTION
 }
 
 /* =======================
-SECTION === 'DARKMODE TOGGLE' === SECTION
-======================= */
-
-/* =======================
 SECTION === 'MAIN' === SECTION
 ======================= */
-
+.homescreen {
+  background-image: url('../public/images/folding-animation3.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .main__product-content {
   animation: appear 0.5s ease-in-out;
 }
@@ -123,7 +124,7 @@ SECTION === 'MAIN' === SECTION
 }
 
 .image-wrapper img {
-  filter: drop-shadow(1px 1px 2px rgb(255, 255, 255)) grayscale(100%);
+  filter: drop-shadow(1px 1px 2px rgb(255, 255, 255));
 }
 
 /* =======================
