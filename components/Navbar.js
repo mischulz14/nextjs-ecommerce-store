@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { ThemeContext } from '../context/ThemeContext';
 import { getTotalQuantity } from '../utils/getTotal';
@@ -19,12 +19,13 @@ const Navbar = () => {
         </Link>
 
         <button
-          className=" h-6 bg-white border-2 border-slate-600 rounded-xl w-14 relative transition-all duration-300 before:content-['light'] before:absolute before:left-[-100%] before:text-gray-600 before:top-[-2px] after:content-['dark'] after:absolute after:right-[-100%] after:text-gray-600 after:top-[-2px] dark:bg-gray-300 dark:before:text-white dark:after:text-white"
+          className=" bg-white border-2 border-slate-600 rounded-xl w-14 relative transition-all duration-300 before:content-['light']
+          h-[20px] before:absolute before:left-[-100%] before:text-gray-600 before:top-[-2px] after:content-['dark'] after:absolute after:right-[-100%] after:text-gray-600 after:top-[-2px] dark:bg-gray-300 dark:before:text-white dark:after:text-white"
           onClick={() => {
             themeContext.toggleThemeAndSetLocalStorage();
           }}
         >
-          <div className="h-5 w-5 rounded-xl bg-slate-900 absolute top-0 right-[32px]  transition-right duration-300 dark:right-0 dark:bg-gray-900" />
+          <div className="h-[20px] w-[20px] rounded-full bg-slate-900 absolute top-[50%] translate-y-[-50%] right-[33px]  transition-right duration-300 dark:right-[-1px] dark:bg-gray-900" />
         </button>
 
         <ul className="flex items-center justify-center gap-14">

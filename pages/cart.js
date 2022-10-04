@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { decreaseCount, increaseCount } from '../utils/count';
 import { getTotalCost } from '../utils/getTotal';
@@ -8,13 +8,13 @@ const Cart = () => {
   const productContext = useContext(ProductContext);
 
   return (
-    <div className="max-w-6xl h-[750px] border-l-2 border-r-2 border-b-2  flex dark:text-white ">
+    <div className="max-w-6xl h-[85vh] border-l-2 border-r-2 border-b-2  flex dark:text-white ">
       <div className="border-2 chosen-items basis-3/5">
         <ul className="h-full overflow-y-scroll">
           {productContext.chosenProducts?.map((product) => {
             return (
               <li
-                key={product.id}
+                key={Math.floor(Math.random() * 1000)}
                 className="relative flex items-center gap-6 p-4 m-4 border-2 grow dark:border-slate-100 dark:bg-slate-700 border-slate-300"
               >
                 <div className="image-wrapper">
@@ -74,7 +74,7 @@ const Cart = () => {
           {productContext.chosenProducts.map((product) => {
             return (
               <li
-                key={product.id}
+                key={Math.floor(Math.random() * 1000)}
                 className="flex flex-wrap justify-around gap-10 p-6 m-4 text-lg border-2 dark:border-slate-100 border-slate-300"
               >
                 <span className="font-semibold">{product.name}</span>

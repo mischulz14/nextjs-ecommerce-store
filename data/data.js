@@ -3,7 +3,6 @@ const origamiFigures = [
     id: 1,
     name: 'Dove',
     price: 10,
-
     activePrice: 10,
     secondColor: '#6DF4C0',
     firstPicture: '/images/dove-white.svg',

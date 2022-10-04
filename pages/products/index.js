@@ -5,11 +5,11 @@ import { useContext, useState } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import origamiFigures from '../../data/data';
-import { getParsedCookie, setStringifiedCookie } from '../../utils/cookies';
+import { handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 
-export default function Home() {
+export default function Products() {
   const [rendered, setRendered] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState(origamiFigures);
   const [filteredPrice, setFilteredPrice] = useState('30');
@@ -97,7 +97,7 @@ export default function Home() {
           </form>
         </div>
         <div>
-          <div className="main__product-content basis-3/4 flex flex-col gap-6 p-8 h-[750px] overflow-y-scroll border-slate-200 border-b-2">
+          <div className="main__product-content basis-3/4 flex flex-col gap-6 p-8 h-[85vh] overflow-y-scroll border-slate-200 border-b-2">
             <h1 className="text-xl font-light text-center dark:text-white">
               PICK YOUR ORIGAMI
             </h1>
@@ -161,9 +161,16 @@ export default function Home() {
                       <div>
                         <div className="flex items-center justify-center gap-2 mt-6 mb-4 font-bold text-center">
                           <button
-                            onClick={() => {
+                            onClick={(event) => {
+                              const eventTarget = event.currentTarget;
+                              if (productAlreadyInCart(product)) {
+                                setUserMessage('Item already in cart!');
+                                showUserMessage(eventTarget);
+                                return;
+                              }
                               if (product.count <= 1) return;
                               decreaseCount(product);
+                              handleCookieChange('count', product, false);
                               productContext.setRenderComponent(
                                 (prev) => !prev,
                               );
@@ -176,13 +183,14 @@ export default function Home() {
                           <button
                             onClick={(event) => {
                               const eventTarget = event.currentTarget;
+
                               if (productAlreadyInCart(product)) {
                                 setUserMessage('Item already in cart!');
                                 showUserMessage(eventTarget);
-
                                 return;
                               } else {
                                 increaseCount(product);
+                                handleCookieChange('count', product, true);
                                 productContext.setRenderComponent(
                                   (prev) => !prev,
                                 );
@@ -209,6 +217,10 @@ export default function Home() {
                                 ...productContext.chosenProducts,
                                 { ...product },
                               ]);
+                              product.count = 1;
+                              productContext.setRenderComponent(
+                                (prev) => !prev,
+                              );
                             }
                           }}
                           className="btn-primary dark:bg-gray-900 dark:text-white dark:border-white cart-btn"

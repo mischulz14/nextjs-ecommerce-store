@@ -3,12 +3,14 @@ import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
+// import { getOrigami } from '../../data/connect';
 import origamiFigures from '../../data/data';
+import { handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 import ErrorPage from '../404';
 
-const Origami = ({ matchedProduct }) => {
+const SingleProductPage = ({ matchedProduct }) => {
   const [rendered, setRendered] = useState(false);
   const [count, setCount] = useState(1);
   const [userMessage, setUserMessage] = useState('');
@@ -32,7 +34,7 @@ const Origami = ({ matchedProduct }) => {
         <meta name="description" content="origami single page" />
       </Head>
       <div
-        className={`card px-6 mb-2 h-[750px] min-w-[230px] grow bg-white flex transition-all  border dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 dark:border-t-0 ${
+        className={`card px-6 mb-2 min-w-[230px] grow bg-white flex transition-all  border dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 dark:border-t-0 ${
           themeContext.darkMode ? 'dark' : ''
         }`}
       >
@@ -118,10 +120,17 @@ const Origami = ({ matchedProduct }) => {
           )}
           <div className="flex items-center justify-center gap-2 mt-6 mb-4 font-bold text-center">
             <button
-              onClick={() => {
+              onClick={(event) => {
+                const eventTarget = event.currentTarget;
+                if (productAlreadyInCart(matchedProduct)) {
+                  setUserMessage('Item already in cart!');
+                  showUserMessage(eventTarget);
+                  return;
+                }
                 if (matchedProduct.count <= 1) return;
                 decreaseCount(matchedProduct);
                 setCount(matchedProduct.count);
+                handleCookieChange('count', matchedProduct, true);
                 productContext.setRenderComponent((prev) => !prev);
               }}
               className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
@@ -141,6 +150,7 @@ const Origami = ({ matchedProduct }) => {
                 } else {
                   increaseCount(matchedProduct);
                   setCount(matchedProduct.count);
+                  handleCookieChange('count', matchedProduct, true);
                   productContext.setRenderComponent((prev) => !prev);
                 }
               }}
@@ -166,9 +176,12 @@ const Origami = ({ matchedProduct }) => {
                   ...productContext.chosenProducts,
                   { ...matchedProduct },
                 ]);
+
+                matchedProduct.count = 1;
+                setRendered((prev) => !prev);
               }
             }}
-            className="btn-primary mt-16 scale-[1.4] hover:scale-[1.5] cart-btn m-0 active:scale-95"
+            className="btn-primary mt-4 mb-8 scale-110 hover:scale-[1.2] cart-btn m-0 active:scale-95"
           />
         </div>
       </div>
@@ -176,9 +189,26 @@ const Origami = ({ matchedProduct }) => {
   );
 };
 
-export default Origami;
+export default SingleProductPage;
 
 export function getServerSideProps(context) {
+  // This is how you get the cookies from the backend:
+  console.log(context.req.cookies.count);
+
+  const cookies = context.req.cookies.count;
+
+  // if (cookies) {
+  //   const parsedCookies = JSON.stringify(cookies);
+
+  // loop over cookies
+
+  // find desired cookie object
+  // }
+
+  // getting products from database
+  // const products = await getOrigami()
+  // you also have to convert the function to an async function!!
+
   const productId = parseInt(context.query.productId);
   const matchedProduct = origamiFigures.find(
     (product) => product.id === productId,
