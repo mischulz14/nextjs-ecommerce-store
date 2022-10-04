@@ -4,12 +4,22 @@ import { useContext, useState } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import origamiFigures from '../../data/data';
+import { decreaseCount, increaseCount } from '../../utils/count';
+import { showUserMessage } from '../../utils/userMessage';
 import ErrorPage from '../404';
 
 const Origami = ({ matchedProduct }) => {
   const [rendered, setRendered] = useState(false);
+  const [count, setCount] = useState(1);
+  const [userMessage, setUserMessage] = useState('');
   const themeContext = useContext(ThemeContext);
   const productContext = useContext(ProductContext);
+
+  function productAlreadyInCart(product) {
+    return productContext.chosenProducts.find(
+      (origami) => origami.activePicture === product.activePicture,
+    );
+  }
 
   if (!matchedProduct) {
     return <ErrorPage />;
@@ -26,6 +36,9 @@ const Origami = ({ matchedProduct }) => {
           themeContext.darkMode ? 'dark' : ''
         }`}
       >
+        <div className="absolute top-0 left-0 z-50 flex items-center justify-center w-full h-10 text-center message">
+          {userMessage}
+        </div>
         <div className="image-container color-container price-container basis-2/4">
           <div className="border-2 border-black dark:border-white flex flex-col mt-6 justify-center items-center h-[50%]">
             <div className={themeContext.darkMode ? 'image-wrapper' : ''}>
@@ -65,15 +78,15 @@ const Origami = ({ matchedProduct }) => {
             <div className="mt-4 text-center price">
               <span className="block mb-2 text-2xl">PRICE</span>
               <span className="text-4xl font-bold">
-                {matchedProduct.activePrice}$
+                {matchedProduct.price}$
               </span>
             </div>
           </div>
         </div>
         <div className="flex flex-col items-center basis-2/4">
-          <span className="block pt-10 mt-2 mb-16 text-4xl font-bold text-center">
+          <h1 className="block pt-10 mt-2 mb-16 text-4xl font-bold text-center">
             {matchedProduct.name.toUpperCase()}
-          </span>
+          </h1>
           <span className="pb-1 mb-8 text-xl text-center border-b-2 border-slate-300">
             DESCRIPTION
           </span>
@@ -103,22 +116,57 @@ const Origami = ({ matchedProduct }) => {
               have a challenge while folding exceptionally looking origami.{' '}
             </span>
           )}
+          <div className="flex items-center justify-center gap-2 mt-6 mb-4 font-bold text-center">
+            <button
+              onClick={() => {
+                if (matchedProduct.count <= 1) return;
+                decreaseCount(matchedProduct);
+                setCount(matchedProduct.count);
+                productContext.setRenderComponent((prev) => !prev);
+              }}
+              className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
+            >
+              -
+            </button>
+            <span>{count}</span>
+            <button
+              onClick={(event) => {
+                const eventTarget = event.currentTarget;
+
+                if (productAlreadyInCart(matchedProduct)) {
+                  setUserMessage('Item already in cart!');
+                  showUserMessage(eventTarget);
+
+                  return;
+                } else {
+                  increaseCount(matchedProduct);
+                  setCount(matchedProduct.count);
+                  productContext.setRenderComponent((prev) => !prev);
+                }
+              }}
+              className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
+            >
+              +
+            </button>
+          </div>
 
           <button
             data-test-id="product-add-to-cart"
-            onClick={() => {
-              if (
-                productContext.chosenProducts.find(
-                  (origami) => origami.id === matchedProduct.id,
-                )
-              ) {
+            onClick={(event) => {
+              const eventTarget = event.currentTarget;
+              if (productAlreadyInCart(matchedProduct)) {
+                setUserMessage('Item already in cart!');
+                showUserMessage(eventTarget);
                 return;
-              }
+              } else {
+                setUserMessage('Item added to cart!');
+                showUserMessage(eventTarget);
 
-              productContext.setChosenProducts([
-                ...productContext.chosenProducts,
-                matchedProduct,
-              ]);
+                productContext.setChosenProducts([
+                  ...productContext.chosenProducts,
+                  { ...matchedProduct },
+                ]);
+              }
             }}
             className="btn-primary mt-16 scale-[1.4] hover:scale-[1.5] cart-btn m-0 active:scale-95"
           />

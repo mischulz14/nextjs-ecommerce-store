@@ -76,7 +76,6 @@ SECTION === 'MAIN' === SECTION
   border: 1px solid black;
   box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.192);
   position: relative;
-  z-index: 1;
 }
 
 .card::before {
@@ -98,7 +97,7 @@ SECTION === 'MAIN' === SECTION
     rgba(0, 0, 0, 0) calc(50% + 1px),
     rgba(0, 0, 0, 0) 100%
   );
-  z-index: 99;
+  z-index: 10;
 }
 
 .card.dark::before {
@@ -120,7 +119,19 @@ SECTION === 'MAIN' === SECTION
     rgba(0, 0, 0, 0) calc(50% + 1px),
     rgba(0, 0, 0, 0) 100%
   );
-  z-index: 99;
+  z-index: 10;
+}
+
+.card .message {
+  height: 0px;
+  color: #fff;
+  overflow: hidden;
+  background-color: #000000;
+  transition: all 0.5s ease-out;
+}
+
+.card.active .message {
+  animation: height 1.5s linear;
 }
 
 .image-wrapper img {
@@ -133,13 +144,13 @@ SECTION === 'BUTTONS' === SECTION
 
 @layer components {
   .btn-primary {
-    @apply block px-4 py-2 mt-8 transition-all duration-200 bg-gray-800 border-2 border-none text-slate-50 hover:scale-105;
+    @apply block px-4 py-2 transition-all duration-200 bg-gray-800 border-2 border-none text-slate-50 hover:scale-105;
   }
 }
 
 @layer components {
   .btn-secondary {
-    @apply block px-4 py-2 mt-8 transition-all duration-200 border-2 border-slate-300 hover:bg-slate-100 hover:scale-105;
+    @apply block px-4 py-2 transition-all duration-200 border-2 border-slate-300 hover:bg-slate-100 hover:scale-105;
   }
 }
 
@@ -325,5 +336,37 @@ SECTION === 'ANIMATIONS' === SECTION
   }
   to {
     transform: translate(0);
+  }
+}
+
+@keyframes height {
+  0% {
+    height: 0px;
+  }
+  20%,
+  30%,
+  40%,
+  50%,
+  55%,
+  65%,
+  75%,
+  80% {
+    height: 80px;
+  }
+
+  92% {
+    height: 60px;
+  }
+
+  95% {
+    height: 40px;
+  }
+
+  98% {
+    height: 20px;
+  }
+
+  100% {
+    height: 0;
   }
 }
