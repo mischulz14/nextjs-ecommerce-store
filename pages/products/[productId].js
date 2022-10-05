@@ -3,8 +3,7 @@ import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
-// import { getOrigami } from '../../data/connect';
-import origamiFigures from '../../data/data';
+import { getOrigamiList } from '../../data/connect';
 import { handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
@@ -45,6 +44,7 @@ const SingleProductPage = ({ matchedProduct }) => {
           <div className="border-2 border-black dark:border-white flex flex-col mt-6 justify-center items-center h-[50%]">
             <div className={themeContext.darkMode ? 'image-wrapper' : ''}>
               <Image
+                data-test-id="product-image"
                 src={matchedProduct.activePicture}
                 width="500"
                 height="300"
@@ -79,8 +79,8 @@ const SingleProductPage = ({ matchedProduct }) => {
             </div>
             <div className="mt-4 text-center price">
               <span className="block mb-2 text-2xl">PRICE</span>
-              <span className="text-4xl font-bold">
-                {matchedProduct.price}$
+              <span data-test-id="product-price" className="text-4xl font-bold">
+                {matchedProduct.price}
               </span>
             </div>
           </div>
@@ -137,7 +137,7 @@ const SingleProductPage = ({ matchedProduct }) => {
             >
               -
             </button>
-            <span>{count}</span>
+            <span data-test-id="product-quantity">{count}</span>
             <button
               onClick={(event) => {
                 const eventTarget = event.currentTarget;
@@ -191,7 +191,7 @@ const SingleProductPage = ({ matchedProduct }) => {
 
 export default SingleProductPage;
 
-export function getServerSideProps(context) {
+export async function getServerSideProps(context) {
   // This is how you get the cookies from the backend:
   console.log(context.req.cookies.count);
 
@@ -206,13 +206,11 @@ export function getServerSideProps(context) {
   // }
 
   // getting products from database
-  // const products = await getOrigami()
+  const products = await getOrigamiList();
   // you also have to convert the function to an async function!!
 
   const productId = parseInt(context.query.productId);
-  const matchedProduct = origamiFigures.find(
-    (product) => product.id === productId,
-  );
+  const matchedProduct = products.find((product) => product.id === productId);
 
   if (matchedProduct === undefined) {
     return {

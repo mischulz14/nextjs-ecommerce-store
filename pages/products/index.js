@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
-import origamiFigures from '../../data/data';
+import { getOrigamiList } from '../../data/connect';
 import { handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 
-export default function Products() {
+export default function Products({ origamiFigures }) {
   const [rendered, setRendered] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState(origamiFigures);
   const [filteredPrice, setFilteredPrice] = useState('30');
@@ -236,4 +236,11 @@ export default function Products() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const origamiFigures = await getOrigamiList();
+  return {
+    props: { origamiFigures },
+  };
 }
