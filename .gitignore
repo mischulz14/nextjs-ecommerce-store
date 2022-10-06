@@ -39,3 +39,10 @@ next-env.d.ts
 
 .eslintcache
 *.tsbuildinfo
+
+*.tsbuildinfo
+
+# eslint
+
+.eslint.cjs
+.eslint*.local

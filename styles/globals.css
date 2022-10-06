@@ -199,6 +199,10 @@ SECTION === 'BUTTONS' === SECTION
   transform: scale(0.9);
 }
 
+/* .cart-btn:active::after {
+  animation: drive 1s ease-in-out;
+} */
+
 /* =======================
 SECTION === 'SCROLLBAR STYLES' === SECTION
 ======================= */
@@ -370,3 +374,17 @@ SECTION === 'ANIMATIONS' === SECTION
     height: 0;
   }
 }
+
+/* @keyframes drive {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  30% {
+    transform: translateY(-100%) translateX(200%);
+  }
+
+  100% {
+    transform: translateY(-100%);
+  }
+} */
