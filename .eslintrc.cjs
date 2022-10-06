@@ -11,8 +11,7 @@ module.exports = {
       {
         connections: [
           {
-            databaseUrl:
-              ' postgres : // next_js_ecommerce : next_js_ecommerce @ localhost : 5432 / next_js_ecommerce ',
+            databaseUrl: ` postgres : // ${PGUSERNAME} : ${PGPASSWORD} @ localhost : 5432 / ${PGDATABASE} `,
             tagName: ' sql ',
             fieldTransform: ' camel ',
             transform: ' $ { type } [ ] ',
