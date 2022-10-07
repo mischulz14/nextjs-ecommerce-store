@@ -39,11 +39,6 @@ const Navbar = () => {
               <a>ABOUT</a>
             </Link>
           </li>
-          <li className="nav-item">
-            <Link href="/contact">
-              <a>CONTACT</a>
-            </Link>
-          </li>
           <li className="relative pb-1 mr-4 nav-item cart hover:scale-105">
             <Link href="/cart">
               <svg

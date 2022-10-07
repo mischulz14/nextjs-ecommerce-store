@@ -1,11 +1,12 @@
 import Image from 'next/image';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { decreaseCount, increaseCount } from '../utils/count';
 import { getTotalCost } from '../utils/getTotal';
 
 const Cart = () => {
   const productContext = useContext(ProductContext);
+  const [show, setShow] = useState(false);
 
   return (
     <div className="max-w-6xl h-[85vh] border-l-2 border-r-2 border-b-2  flex dark:text-white ">
@@ -73,8 +74,8 @@ const Cart = () => {
           })}
         </ul>
       </div>
-      <div className="border-2 overflow-y-scroll dark:border-slate-100 border-slate-300 price basis-2/5">
-        <ul className="pb-8  border-b-2 dark:border-slate-100 border-slate-300">
+      <div className="overflow-y-scroll border-2 dark:border-slate-100 border-slate-300 price basis-2/5">
+        <ul className="pb-8 border-b-2 dark:border-slate-100 border-slate-300">
           <h2 className="m-8 text-2xl font-semibold text-center">Summary:</h2>
           {productContext.chosenProducts.map((product) => {
             return (
@@ -97,13 +98,23 @@ const Cart = () => {
         >
           Total Price: {getTotalCost(productContext.chosenProducts)}
         </div>
-        <div className="flex items-center justify-center mt-14">
+        <div className="relative flex items-center justify-center mt-14">
           <button
+            onClick={() => {
+              setShow(true);
+
+              setTimeout(() => {
+                setShow(false);
+              }, 3000);
+            }}
             data-test-id="cart-checkout"
-            className="scale-110 btn-primary hover:scale-125 mb-8"
+            className="mb-8 scale-110 btn-primary hover:scale-125 checkout "
           >
             Checkout
           </button>
+          <div className={`${show ? 'block' : 'hidden'} absolute top-20`}>
+            The checkout page is currently under construction! Come back later!
+          </div>
         </div>
       </div>
     </div>

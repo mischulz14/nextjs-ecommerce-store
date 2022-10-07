@@ -21,12 +21,13 @@ function ThemeProvider(props) {
       : document.body.classList.remove('dark');
   }, [darkMode]);
 
-  const value = {
+  const context = {
     darkMode,
     toggleThemeAndSetLocalStorage,
   };
+
   return (
-    <ThemeContext.Provider value={value}>
+    <ThemeContext.Provider value={context}>
       {props.children}
     </ThemeContext.Provider>
   );

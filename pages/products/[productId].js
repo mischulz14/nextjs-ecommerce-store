@@ -3,7 +3,8 @@ import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
-import { getOrigamiList } from '../../data/connect';
+// import { getOrigamiList } from '../../data/connect';
+import origamiFigures from '../../data/data';
 import { handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
@@ -191,9 +192,9 @@ const SingleProductPage = ({ matchedProduct }) => {
 
 export default SingleProductPage;
 
-export async function getServerSideProps(context) {
+export function getServerSideProps(context) {
   // This is how you get the cookies from the backend:
-  console.log(context.req.cookies.count);
+  // console.log(context.req.cookies.count);
 
   const cookies = context.req.cookies.count;
 
@@ -206,7 +207,7 @@ export async function getServerSideProps(context) {
   // }
 
   // getting products from database
-  const products = await getOrigamiList();
+  const products = origamiFigures;
   // you also have to convert the function to an async function!!
 
   const productId = parseInt(context.query.productId);
