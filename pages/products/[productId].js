@@ -34,15 +34,15 @@ const SingleProductPage = ({ matchedProduct }) => {
         <meta name="description" content="origami single page" />
       </Head>
       <div
-        className={`card px-6 mb-2 min-w-[230px] grow bg-white flex transition-all  border dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 dark:border-t-0 ${
+        className={`card px-6 mb-2 min-w-[230px] grow bg-white sm:flex-row flex-col transition-all  border dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 dark:border-t-0 ${
           themeContext.darkMode ? 'dark' : ''
         }`}
       >
         <div className="absolute top-0 left-0 z-50 flex items-center justify-center w-full h-10 text-center message">
           {userMessage}
         </div>
-        <div className="image-container color-container price-container basis-2/4">
-          <div className="border-2 border-black dark:border-white flex flex-col mt-6 justify-center items-center h-[50%]">
+        <div className="pt-10 sm:pt-0 image-container color-container price-container basis-2/4">
+          <div className="border-2 border-black dark:border-white flex flex-col justify-center items-center h-[50%]">
             <div className={themeContext.darkMode ? 'image-wrapper' : ''}>
               <Image
                 data-test-id="product-image"
@@ -94,7 +94,7 @@ const SingleProductPage = ({ matchedProduct }) => {
             DESCRIPTION
           </span>
           {matchedProduct.difficulty < 4 && (
-            <span className="inline-block p-10 mx-10 text-lg text-center border-2 border-slate-300">
+            <span className="inline-block p-4 text-lg text-center border-2 sm:p-10 sm:mx-10 border-slate-300">
               This {matchedProduct.name} provides an easy challenge which can be
               solved faster than other origami challenges. This is a perfect
               project from beginners to advanced origami lovers, who want to

@@ -9,7 +9,7 @@ const Cart = () => {
   const [show, setShow] = useState(false);
 
   return (
-    <div className="max-w-6xl h-[85vh] border-l-2 border-r-2 border-b-2  flex dark:text-white ">
+    <div className="max-w-6xl sm:h-[85vh] border-l-2 border-r-2 border-b-2  sm:flex-row flex-col dark:text-white ">
       <div className="border-2 chosen-items basis-3/5">
         <ul className="h-full overflow-y-scroll">
           {productContext.chosenProducts?.map((product) => {
@@ -112,7 +112,11 @@ const Cart = () => {
           >
             Checkout
           </button>
-          <div className={`${show ? 'block' : 'hidden'} absolute top-20`}>
+          <div
+            className={`${
+              show ? 'block' : 'hidden'
+            } absolute text-black bg-white top-0`}
+          >
             The checkout page is currently under construction! Come back later!
           </div>
         </div>
