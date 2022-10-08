@@ -103,7 +103,7 @@ const SingleProductPage = ({ matchedProduct }) => {
           )}
 
           {matchedProduct.difficulty >= 5 && matchedProduct.difficulty <= 8 ? (
-            <span className="inline-block p-10 mx-10 text-lg text-center border-2 border-slate-300">
+            <span className="inline-block p-4 text-lg text-center border-2 border-slate-300 sm:p-10 sm:mx-10">
               This {matchedProduct.name} provides an intermediate challenge
               which has be solved with more effort than other origami
               challenges. This is a project for intermediate or advanced origami
@@ -112,7 +112,7 @@ const SingleProductPage = ({ matchedProduct }) => {
           ) : null}
 
           {matchedProduct.difficulty > 8 && (
-            <span className="inline-block p-10 mx-10 text-lg text-center border-2 border-slate-300">
+            <span className="inline-block p-4 text-lg text-center border-2 border-slate-300 sm:p-10 sm:mx-10">
               This {matchedProduct.name} provides a hard challenge which
               requires more time and brainpower than other origami challenges.
               This is a project for advanced origami lovers, who really want to
