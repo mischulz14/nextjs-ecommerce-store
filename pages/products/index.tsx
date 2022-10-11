@@ -60,6 +60,7 @@ export default function Products({ origamiFigures, foundInCookies }: any) {
 
   return (
     <>
+      {rendered}
       <Head>
         <title>All Origamis</title>
         <meta name="description" content="list page of origamis" />
