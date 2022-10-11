@@ -8,21 +8,16 @@ import { ThemeProvider } from '../context/ThemeContext';
 import Footer from './Footer';
 import Navbar from './Navbar';
 
-type LayoutProps = {
-  children: React.ReactNode;
-  foundInCookies: Array<{}>;
-};
-
-const Layout = (props: LayoutProps) => {
+const Layout = ({ children, foundInCookies }: any) => {
   return (
-    <ProductContextProvider foundInCookies={props.foundInCookies}>
+    <ProductContextProvider foundInCookies={foundInCookies}>
       <ThemeProvider>
         <div className="dark:bg-gray-900">
           <Head>
             <link rel="icon" href="" />
           </Head>
           <Navbar />
-          <main className="max-w-6xl mx-auto">{props.children}</main>
+          <main className="max-w-6xl mx-auto">{children}</main>
           <Footer />
         </div>
       </ThemeProvider>
