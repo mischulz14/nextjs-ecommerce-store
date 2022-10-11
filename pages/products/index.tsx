@@ -69,7 +69,7 @@ export default function Products({ origamiFigures, foundInCookies }: any) {
       <div className="relative flex flex-col sm:flex-row">
         <button
           onClick={() => setShowFilter((prev) => !prev)}
-          className="show-filter-btn absolute top-0 text-center sm:hidden w-[100%] py-2 text-lg  bg-slate-300 dark:bg-slate-900 dark:text-white z-[99] dark:bg-slate-600"
+          className="show-filter-btn absolute top-0 text-center sm:hidden w-[100%] py-2 text-lg  bg-slate-300 dark:bg-slate-900 dark:text-white z-[99] "
         >
           <span>FILTERS</span>
           <span
