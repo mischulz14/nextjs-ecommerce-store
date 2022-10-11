@@ -10,7 +10,7 @@ import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 import ErrorPage from '../404';
 
-type WholeProduct = {
+type Product = {
   id: number;
   name: string;
   price: number;
@@ -23,20 +23,22 @@ type WholeProduct = {
   secondColor: string;
 };
 
-const SingleProductPage = ({ matchedProduct }: any) => {
+type ProductProps = { matchedProduct: Product };
+
+const SingleProductPage = (props: ProductProps) => {
   const [rendered, setRendered] = useState(false);
   const [count, setCount] = useState(1);
   const [userMessage, setUserMessage] = useState('');
   const themeContext = useContext(ThemeContext);
   const productContext = useContext(ProductContext);
 
-  function productAlreadyInCart(product: WholeProduct) {
+  function productAlreadyInCart(product: Product) {
     return productContext.chosenProducts.find(
       (origami: { id: number }) => origami.id === product.id,
     );
   }
 
-  if (!matchedProduct) {
+  if (!props.matchedProduct) {
     return <ErrorPage />;
   }
 
@@ -59,10 +61,10 @@ const SingleProductPage = ({ matchedProduct }: any) => {
             <div className={themeContext.darkMode ? 'image-wrapper' : ''}>
               <Image
                 data-test-id="product-image"
-                src={matchedProduct.activePicture}
+                src={props.matchedProduct.activePicture}
                 width="500"
                 height="300"
-                alt={matchedProduct.name}
+                alt={props.matchedProduct.name}
               />
             </div>
           </div>
@@ -74,59 +76,62 @@ const SingleProductPage = ({ matchedProduct }: any) => {
               <div className="flex gap-4">
                 <button
                   onClick={() => {
-                    matchedProduct.activePicture = matchedProduct.firstPicture;
-                    matchedProduct.activePrice = matchedProduct.price;
+                    props.matchedProduct.activePicture =
+                      props.matchedProduct.firstPicture;
                     setRendered((prev) => !prev);
                   }}
                   className="w-20 h-20 bg-white border-2 rounded-full border-slate-400"
                 />
                 <button
                   onClick={() => {
-                    matchedProduct.activePicture = matchedProduct.secondPicture;
-                    matchedProduct.activePrice = matchedProduct.priceColor;
+                    props.matchedProduct.activePicture =
+                      props.matchedProduct.secondPicture;
+
                     setRendered((prev) => !prev);
                   }}
                   className="w-20 h-20 border-2 rounded-full border-slate-400"
-                  style={{ backgroundColor: matchedProduct.secondColor }}
+                  style={{ backgroundColor: props.matchedProduct.secondColor }}
                 />
               </div>
             </div>
             <div className="mt-4 text-center price">
               <span className="block mb-2 text-2xl">PRICE</span>
               <span data-test-id="product-price" className="text-4xl font-bold">
-                {matchedProduct.price}
+                {props.matchedProduct.price}
               </span>
             </div>
           </div>
         </div>
         <div className="flex flex-col items-center basis-2/4">
           <h1 className="block pt-10 mt-2 mb-16 text-4xl font-bold text-center">
-            {matchedProduct.name.toUpperCase()}
+            {props.matchedProduct.name.toUpperCase()}
           </h1>
           <span className="pb-1 mb-8 text-xl text-center border-b-2 border-slate-300">
             DESCRIPTION
           </span>
-          {matchedProduct.difficulty < 4 && (
+          {props.matchedProduct.difficulty < 4 && (
             <span className="inline-block p-4 text-lg text-center border-2 sm:p-10 sm:mx-10 border-slate-300">
-              This {matchedProduct.name} provides an easy challenge which can be
-              solved faster than other origami challenges. This is a perfect
-              project from beginners to advanced origami lovers, who want to
-              fold an elegant looking origami without having to think to much.{' '}
+              This {props.matchedProduct.name} provides an easy challenge which
+              can be solved faster than other origami challenges. This is a
+              perfect project from beginners to advanced origami lovers, who
+              want to fold an elegant looking origami without having to think to
+              much.{' '}
             </span>
           )}
 
-          {matchedProduct.difficulty >= 5 && matchedProduct.difficulty <= 8 ? (
+          {props.matchedProduct.difficulty >= 5 &&
+          props.matchedProduct.difficulty <= 8 ? (
             <span className="inline-block p-4 text-lg text-center border-2 border-slate-300 sm:p-10 sm:mx-10">
-              This {matchedProduct.name} provides an intermediate challenge
-              which has be solved with more effort than other origami
+              This {props.matchedProduct.name} provides an intermediate
+              challenge which has be solved with more effort than other origami
               challenges. This is a project for intermediate or advanced origami
               lovers, who want to have a challenge while folding their origami.{' '}
             </span>
           ) : null}
 
-          {matchedProduct.difficulty > 8 && (
+          {props.matchedProduct.difficulty > 8 && (
             <span className="inline-block p-4 text-lg text-center border-2 border-slate-300 sm:p-10 sm:mx-10">
-              This {matchedProduct.name} provides a hard challenge which
+              This {props.matchedProduct.name} provides a hard challenge which
               requires more time and brainpower than other origami challenges.
               This is a project for advanced origami lovers, who really want to
               have a challenge while folding exceptionally looking origami.{' '}
@@ -136,15 +141,15 @@ const SingleProductPage = ({ matchedProduct }: any) => {
             <button
               onClick={(event) => {
                 const eventTarget = event.currentTarget;
-                if (productAlreadyInCart(matchedProduct)) {
+                if (productAlreadyInCart(props.matchedProduct)) {
                   setUserMessage('Item already in cart!');
                   showUserMessage(eventTarget);
                   return;
                 }
-                if (matchedProduct.count <= 1) return;
-                decreaseCount(matchedProduct);
-                setCount(matchedProduct.count);
-                handleCookieChange('count', matchedProduct, true);
+                if (props.matchedProduct.count <= 1) return;
+                decreaseCount(props.matchedProduct);
+                setCount(props.matchedProduct.count);
+                handleCookieChange('count', props.matchedProduct, true);
                 productContext.setRenderComponent((prev: boolean) => !prev);
               }}
               className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
@@ -156,15 +161,15 @@ const SingleProductPage = ({ matchedProduct }: any) => {
               onClick={(event) => {
                 const eventTarget = event.currentTarget;
 
-                if (productAlreadyInCart(matchedProduct)) {
+                if (productAlreadyInCart(props.matchedProduct)) {
                   setUserMessage('Item already in cart!');
                   showUserMessage(eventTarget);
 
                   return;
                 } else {
-                  increaseCount(matchedProduct);
-                  setCount(matchedProduct.count);
-                  handleCookieChange('count', matchedProduct, true);
+                  increaseCount(props.matchedProduct);
+                  setCount(props.matchedProduct.count);
+                  handleCookieChange('count', props.matchedProduct, true);
                   productContext.setRenderComponent((prev: boolean) => !prev);
                 }
               }}
@@ -178,21 +183,21 @@ const SingleProductPage = ({ matchedProduct }: any) => {
             data-test-id="product-add-to-cart"
             onClick={(event) => {
               const eventTarget = event.currentTarget;
-              if (productAlreadyInCart(matchedProduct)) {
+              if (productAlreadyInCart(props.matchedProduct)) {
                 setUserMessage('Item already in cart!');
                 showUserMessage(eventTarget);
                 return;
               } else {
-                addCookie('count', matchedProduct);
+                addCookie('count', props.matchedProduct);
                 setUserMessage('Item added to cart!');
                 showUserMessage(eventTarget);
 
                 productContext.setChosenProducts([
                   ...productContext.chosenProducts,
-                  { ...matchedProduct },
+                  { ...props.matchedProduct },
                 ]);
 
-                matchedProduct.count = 1;
+                props.matchedProduct.count = 1;
                 setRendered((prev) => !prev);
               }
             }}

@@ -1,9 +1,5 @@
 import Head from 'next/head';
-import { useContext, useEffect } from 'react';
-import {
-  ProductContext,
-  ProductContextProvider,
-} from '../context/ProductContext';
+import { ProductContextProvider } from '../context/ProductContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import Footer from './Footer';
 import Navbar from './Navbar';

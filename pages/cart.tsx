@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { getOrigamiList } from '../data/connect';
@@ -19,14 +20,13 @@ type WholeProduct = {
   secondColor: string;
 };
 
-type ProductToDecreaseOrIncrease = { id: number; count: number };
+type cartProps = { foundInCookies: WholeProduct[] };
 
-const Cart = ({ foundInCookies }: any) => {
+const Cart = (props: cartProps) => {
   const productContext = useContext(ProductContext);
-  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    productContext.setChosenProducts(foundInCookies);
+    productContext.setChosenProducts(props.foundInCookies);
   }, []);
 
   return (
@@ -46,21 +46,34 @@ const Cart = ({ foundInCookies }: any) => {
                 <div className="flex justify-center gap-1 py-4 sm:flex-col">
                   <button
                     onClick={() => {
-                      product.activePicture = product.firstPicture;
+                      // product.activePicture = product.firstPicture;
                       addCookie('count', product);
-                      productContext.setRenderComponent(
-                        (prev: boolean) => !prev,
-                      );
+                      productContext.setChosenProducts((prev: any) => {
+                        const found = prev.find(
+                          (item: any) => item.id === product.id,
+                        );
+                        if (found) {
+                          found.activePicture = product.firstPicture;
+                          return [...prev];
+                        }
+                        return [...prev, product];
+                      });
                     }}
                     className="w-6 h-6 bg-white border-2 rounded-full border-slate-400"
                   />
                   <button
                     onClick={() => {
-                      product.activePicture = product.secondPicture;
                       addCookie('count', product);
-                      productContext.setRenderComponent(
-                        (prev: boolean) => !prev,
-                      );
+                      productContext.setChosenProducts((prev: any) => {
+                        const found = prev.find(
+                          (item: any) => item.id === product.id,
+                        );
+                        if (found) {
+                          found.activePicture = product.secondPicture;
+                          return [...prev];
+                        }
+                        return [...prev, product];
+                      });
                     }}
                     className="w-6 h-6 border-2 rounded-full border-slate-400"
                     style={{ backgroundColor: product.secondColor }}
@@ -75,9 +88,16 @@ const Cart = ({ foundInCookies }: any) => {
                           if (product.count <= 1) return;
                           decreaseCount(product);
                           handleCookieChange('count', product, false);
-                          productContext.setRenderComponent(
-                            (prev: boolean) => !prev,
-                          );
+                          productContext.setChosenProducts((prev: any) => {
+                            const found = prev.find(
+                              (item: any) => item.id === product.id,
+                            );
+                            if (found) {
+                              found.count--;
+                              return [...prev];
+                            }
+                            return [...prev, product];
+                          });
                         }}
                         className="mt-2 font-bold btn-secondary hover:text-gray-900"
                       >
@@ -91,11 +111,20 @@ const Cart = ({ foundInCookies }: any) => {
                       </div>
                       <button
                         onClick={() => {
-                          increaseCount(product);
+                          productContext.setChosenProducts((prev: any) => {
+                            const found = prev.find(
+                              (item: any) => item.id === product.id,
+                            );
+                            if (found) {
+                              found.count++;
+                              return [...prev];
+                            }
+                            return [...prev, product];
+                          });
                           handleCookieChange('count', product, true);
-                          productContext.setRenderComponent(
-                            (prev: boolean) => !prev,
-                          );
+                          // productContext.setRenderComponent(
+                          //   (prev: boolean) => !prev,
+                          // );
                         }}
                         className="mt-2 font-bold btn-secondary hover:text-gray-900"
                       >
@@ -152,26 +181,19 @@ const Cart = ({ foundInCookies }: any) => {
           Total Price: {getTotalCost(productContext.chosenProducts)}
         </div>
         <div className="relative flex items-center justify-center mt-14">
-          <button
-            onClick={() => {
-              setShow(true);
-
-              setTimeout(() => {
-                setShow(false);
-              }, 3000);
-            }}
-            data-test-id="cart-checkout"
-            className="mb-8 scale-110 btn-primary hover:scale-125 checkout "
-          >
-            Checkout
-          </button>
-          <div
-            className={`${
-              show ? 'block' : 'hidden'
-            } absolute text-black bg-white top-0`}
-          >
-            The checkout page is currently under construction! Come back later!
-          </div>
+          <Link href="/checkout">
+            <button
+              onClick={() => {
+                productContext.setTotalPrice(
+                  getTotalCost(productContext.chosenProducts),
+                );
+              }}
+              data-test-id="cart-checkout"
+              className="mb-8 scale-110 btn-primary hover:scale-125 checkout "
+            >
+              Checkout
+            </button>
+          </Link>
         </div>
       </div>
     </div>

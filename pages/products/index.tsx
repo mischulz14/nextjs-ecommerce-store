@@ -10,7 +10,7 @@ import { addCookie, handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 
-type WholeProduct = {
+type Product = {
   id: number;
   name: string;
   price: number;
@@ -23,9 +23,16 @@ type WholeProduct = {
   secondColor: string;
 };
 
-export default function Products({ origamiFigures, foundInCookies }: any) {
+type IndexProps = {
+  origamiFigures: Product[];
+  foundInCookies: Product[];
+};
+
+export default function Products(props: IndexProps) {
   const [rendered, setRendered] = useState(false);
-  const [filteredProducts, setFilteredProducts] = useState(origamiFigures);
+  const [filteredProducts, setFilteredProducts] = useState(
+    props.origamiFigures,
+  );
   const [filteredPrice, setFilteredPrice] = useState('30');
   const [filteredDifficulty, setFilteredDifficulty] = useState('10');
   const [userMessage, setUserMessage] = useState('Added to cart!');
@@ -34,17 +41,17 @@ export default function Products({ origamiFigures, foundInCookies }: any) {
   const productContext = useContext(ProductContext);
 
   useEffect(() => {
-    productContext.setChosenProducts(foundInCookies);
+    productContext.setChosenProducts(props.foundInCookies);
   }, []);
 
   function handleFilter(event: any) {
     event.preventDefault();
 
-    const arrayCopy = [...origamiFigures];
+    const arrayCopy = [...props.origamiFigures];
 
     const difficultyAndPriceFilteredArray = arrayCopy
-      .filter((origami) => origami.price <= filteredPrice)
-      .filter((origami) => origami.difficulty <= filteredDifficulty);
+      .filter((origami) => origami.price <= parseInt(filteredPrice))
+      .filter((origami) => origami.difficulty <= parseInt(filteredDifficulty));
 
     // ? why doesn't this work with === ?
 
@@ -52,7 +59,7 @@ export default function Products({ origamiFigures, foundInCookies }: any) {
     setShowFilter(false);
   }
 
-  function productAlreadyInCart(product: WholeProduct) {
+  function productAlreadyInCart(product: Product) {
     return productContext.chosenProducts.find(
       (origami: { id: number }) => origami.id === product.id,
     );
@@ -128,7 +135,7 @@ export default function Products({ origamiFigures, foundInCookies }: any) {
                 onClick={() => {
                   setFilteredPrice('30');
                   setFilteredDifficulty('10');
-                  setFilteredProducts(origamiFigures);
+                  setFilteredProducts(props.origamiFigures);
                 }}
               >
                 Remove filters
@@ -144,7 +151,7 @@ export default function Products({ origamiFigures, foundInCookies }: any) {
             </h1>
             <div>
               <ul className="flex flex-wrap gap-12">
-                {filteredProducts.map((product: WholeProduct) => {
+                {filteredProducts.map((product: Product) => {
                   return (
                     <li
                       key={product.id}
