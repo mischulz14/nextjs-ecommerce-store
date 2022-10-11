@@ -157,7 +157,7 @@ const Cart = (props: cartProps) => {
         </ul>
       </div>
       <div className="overflow-y-scroll border-2 dark:border-slate-100 border-slate-300 price basis-2/5">
-        <ul className="pb-8 border-b-2 dark:border-slate-100 border-slate-300">
+        <ul className="pb-8 overflow-y-scroll border-b-2 dark:border-slate-100 border-slate-300 h-[400px]">
           <h2 className="m-8 text-2xl font-semibold text-center">Summary:</h2>
           {productContext.chosenProducts.map((product: WholeProduct) => {
             return (
