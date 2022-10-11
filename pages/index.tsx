@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { ProductContext } from '../context/ProductContext';
-import { ThemeContext } from '../context/ThemeContext';
 import { getOrigamiList } from '../data/connect';
 
-const HomeScreen = ({ foundInCookies }) => {
+// TODO foundInCookies not found in object?
+const HomeScreen = ({ foundInCookies }: any) => {
   const productContext = useContext(ProductContext);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const HomeScreen = ({ foundInCookies }) => {
 
 export default HomeScreen;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   const origamiFigures = await getOrigamiList();
 
   const parsedCookies = context.req.cookies.count
@@ -35,7 +35,7 @@ export async function getServerSideProps(context) {
 
   // loop over cookies
   const foundInCookies = parsedCookies
-    .map((cookieInfo) => {
+    .map((cookieInfo: { id: number; count: number }) => {
       return {
         ...origamiFigures.find((origami) => {
           if (origami.id === cookieInfo.id) {
@@ -47,7 +47,7 @@ export async function getServerSideProps(context) {
         }),
       };
     })
-    .map((item) => {
+    .map((item: {}) => {
       return {
         ...item,
       };

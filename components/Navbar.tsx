@@ -41,7 +41,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="relative pb-1 mr-4 nav-item cart hover:scale-105">
-            <Link href="/cart">
+            <Link data-test-id="cart-link" href="/cart">
               <svg
                 width="35px"
                 height="35px"
@@ -59,7 +59,10 @@ const Navbar = () => {
               </svg>
             </Link>
             <Link href="/cart">
-              <div className="absolute flex items-center justify-center w-4 h-4 p-3 text-sm text-white rounded-full -right-1 -top-2 bg-slate-500">
+              <div
+                data-test-id="cart-count"
+                className="absolute flex items-center justify-center w-4 h-4 p-3 text-sm text-white rounded-full -right-1 -top-2 bg-slate-500"
+              >
                 {getTotalQuantity(productContext?.chosenProducts)}
                 {productContext.renderComponent}
               </div>

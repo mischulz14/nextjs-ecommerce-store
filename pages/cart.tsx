@@ -6,7 +6,22 @@ import { addCookie, handleCookieChange, removeCookie } from '../utils/cookies';
 import { decreaseCount, increaseCount } from '../utils/count';
 import { getTotalCost } from '../utils/getTotal';
 
-const Cart = ({ foundInCookies }) => {
+type WholeProduct = {
+  id: number;
+  name: string;
+  price: number;
+  count: number;
+  firstPicture: string;
+  secondPicture: string;
+  difficulty: number;
+  activePrice: number;
+  activePicture: string;
+  secondColor: string;
+};
+
+type ProductToDecreaseOrIncrease = { id: number; count: number };
+
+const Cart = ({ foundInCookies }: any) => {
   const productContext = useContext(ProductContext);
   const [show, setShow] = useState(false);
 
@@ -18,7 +33,7 @@ const Cart = ({ foundInCookies }) => {
     <div className="max-w-6xl sm:h-[85vh] border-l-2 border-r-2 border-b-2 sm:flex-initial sm:flex-row flex flex-col  dark:text-white ">
       <div className="border-2 chosen-items basis-3/5">
         <ul className="h-full sm:overflow-y-scroll">
-          {productContext.chosenProducts?.map((product) => {
+          {productContext.chosenProducts?.map((product: WholeProduct) => {
             return (
               <li
                 data-test-id={`cart-product-${product.id}`}
@@ -33,7 +48,9 @@ const Cart = ({ foundInCookies }) => {
                     onClick={() => {
                       product.activePicture = product.firstPicture;
                       addCookie('count', product);
-                      productContext.setRenderComponent((prev) => !prev);
+                      productContext.setRenderComponent(
+                        (prev: boolean) => !prev,
+                      );
                     }}
                     className="w-6 h-6 bg-white border-2 rounded-full border-slate-400"
                   />
@@ -41,7 +58,9 @@ const Cart = ({ foundInCookies }) => {
                     onClick={() => {
                       product.activePicture = product.secondPicture;
                       addCookie('count', product);
-                      productContext.setRenderComponent((prev) => !prev);
+                      productContext.setRenderComponent(
+                        (prev: boolean) => !prev,
+                      );
                     }}
                     className="w-6 h-6 border-2 rounded-full border-slate-400"
                     style={{ backgroundColor: product.secondColor }}
@@ -56,7 +75,9 @@ const Cart = ({ foundInCookies }) => {
                           if (product.count <= 1) return;
                           decreaseCount(product);
                           handleCookieChange('count', product, false);
-                          productContext.setRenderComponent((prev) => !prev);
+                          productContext.setRenderComponent(
+                            (prev: boolean) => !prev,
+                          );
                         }}
                         className="mt-2 font-bold btn-secondary hover:text-gray-900"
                       >
@@ -72,7 +93,9 @@ const Cart = ({ foundInCookies }) => {
                         onClick={() => {
                           increaseCount(product);
                           handleCookieChange('count', product, true);
-                          productContext.setRenderComponent((prev) => !prev);
+                          productContext.setRenderComponent(
+                            (prev: boolean) => !prev,
+                          );
                         }}
                         className="mt-2 font-bold btn-secondary hover:text-gray-900"
                       >
@@ -91,7 +114,7 @@ const Cart = ({ foundInCookies }) => {
                     // remove elements from list
                     productContext.setChosenProducts(
                       productContext.chosenProducts.filter(
-                        (item) => item.activePicture !== product.activePicture,
+                        (item: { id: number }) => item.id !== product.id,
                       ),
                     );
                   }}
@@ -107,7 +130,7 @@ const Cart = ({ foundInCookies }) => {
       <div className="overflow-y-scroll border-2 dark:border-slate-100 border-slate-300 price basis-2/5">
         <ul className="pb-8 border-b-2 dark:border-slate-100 border-slate-300">
           <h2 className="m-8 text-2xl font-semibold text-center">Summary:</h2>
-          {productContext.chosenProducts.map((product) => {
+          {productContext.chosenProducts.map((product: WholeProduct) => {
             return (
               <li
                 key={Math.floor(Math.random() * 1000)}
@@ -157,7 +180,7 @@ const Cart = ({ foundInCookies }) => {
 
 export default Cart;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   const origamiFigures = await getOrigamiList();
 
   const parsedCookies = context.req.cookies.count
@@ -166,7 +189,7 @@ export async function getServerSideProps(context) {
 
   // loop over cookies
   const foundInCookies = parsedCookies
-    .map((cookieInfo) => {
+    .map((cookieInfo: { id: number; count: number; activePicture: string }) => {
       return {
         ...origamiFigures.find((origami) => {
           if (origami.id === cookieInfo.id) {
@@ -179,7 +202,7 @@ export async function getServerSideProps(context) {
         }),
       };
     })
-    .map((item) => {
+    .map((item: {}) => {
       return {
         ...item,
       };
