@@ -140,6 +140,28 @@ SECTION === 'MAIN' === SECTION
 }
 
 /* =======================
+SECTION === 'CHECKOUT PAGE' === SECTION
+======================= */
+
+@layer utilities {
+  .checkout__image-wrapper {
+    @apply flex items-center justify-center w-[50%] mx-auto my-4 p-4 bg-slate-500  dark:bg-slate-900;
+  }
+}
+
+@layer components {
+  input {
+    @apply w-full p-2 mb-2 border-2 border-gray-300 focus:outline-none focus:border-slate-400 dark:focus:border-slate-400;
+  }
+}
+
+@layer utilities {
+  [class*='checkout__form'] {
+    @apply p-4;
+  }
+}
+
+/* =======================
 SECTION === 'BUTTONS' === SECTION
 ======================= */
 
