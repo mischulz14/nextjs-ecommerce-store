@@ -3,9 +3,9 @@ import Image from 'next/image';
 import { useContext, useState } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
-// import { getOrigamiList } from '../../data/connect';
-import origamiFigures from '../../data/data';
-import { handleCookieChange } from '../../utils/cookies';
+import { getOrigamiList } from '../../data/connect';
+// import origamiFigures from '../../data/data';
+import { addCookie, handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 import ErrorPage from '../404';
@@ -170,6 +170,7 @@ const SingleProductPage = ({ matchedProduct }) => {
                 showUserMessage(eventTarget);
                 return;
               } else {
+                addCookie('count', matchedProduct);
                 setUserMessage('Item added to cart!');
                 showUserMessage(eventTarget);
 
@@ -192,22 +193,9 @@ const SingleProductPage = ({ matchedProduct }) => {
 
 export default SingleProductPage;
 
-export function getServerSideProps(context) {
-  // This is how you get the cookies from the backend:
-  // console.log(context.req.cookies.count);
-
-  const cookies = context.req.cookies.count;
-
-  // if (cookies) {
-  //   const parsedCookies = JSON.stringify(cookies);
-
-  // loop over cookies
-
-  // find desired cookie object
-  // }
-
+export async function getServerSideProps(context) {
   // getting products from database
-  const products = origamiFigures;
+  const products = await getOrigamiList();
   // you also have to convert the function to an async function!!
 
   const productId = parseInt(context.query.productId);

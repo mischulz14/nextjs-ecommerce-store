@@ -1,24 +1,29 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
-// import { getOrigamiList } from '../../data/connect';
-import origamiFigures from '../../data/data';
-import { handleCookieChange } from '../../utils/cookies';
+import { getOrigamiList } from '../../data/connect';
+// import origamiFigures from '../../data/data';
+import { addCookie, handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 
-export default function Products() {
+export default function Products({ origamiFigures, foundInCookies }) {
   const [rendered, setRendered] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState(origamiFigures);
   const [filteredPrice, setFilteredPrice] = useState('30');
   const [filteredDifficulty, setFilteredDifficulty] = useState('10');
   const [userMessage, setUserMessage] = useState('Added to cart!');
   const [showFilter, setShowFilter] = useState(false);
+  const [counter, setCounter] = useState(1);
   const themeContext = useContext(ThemeContext);
   const productContext = useContext(ProductContext);
+
+  useEffect(() => {
+    productContext.setChosenProducts(foundInCookies);
+  }, []);
 
   function handleFilter(event) {
     event.preventDefault();
@@ -37,7 +42,7 @@ export default function Products() {
 
   function productAlreadyInCart(product) {
     return productContext.chosenProducts.find(
-      (origami) => origami.activePicture === product.activePicture,
+      (origami) => origami.id === product.id,
     );
   }
 
@@ -234,6 +239,7 @@ export default function Products() {
                               showUserMessage(eventTarget);
                               return;
                             } else {
+                              addCookie('count', product);
                               setUserMessage('Item added to cart!');
                               showUserMessage(eventTarget);
                               productContext.setChosenProducts([
@@ -261,9 +267,36 @@ export default function Products() {
   );
 }
 
-// export async function getServerSideProps() {
-//   const origamiFigures = await getOrigamiList();
-//   return {
-//     props: { origamiFigures },
-//   };
-// }
+export async function getServerSideProps(context) {
+  const origamiFigures = await getOrigamiList();
+
+  const parsedCookies = context.req.cookies.count
+    ? JSON.parse(context.req.cookies.count)
+    : [];
+
+  // loop over cookies
+  const foundInCookies = parsedCookies
+    .map((cookieInfo) => {
+      return {
+        ...origamiFigures.find((origami) => {
+          if (origami.id === cookieInfo.id) {
+            origami.count = cookieInfo.count;
+            return {
+              ...origami,
+            };
+          }
+        }),
+      };
+    })
+    .map((item) => {
+      return {
+        ...item,
+      };
+    });
+
+  // find desired cookie object
+
+  return {
+    props: { origamiFigures, foundInCookies: foundInCookies },
+  };
+}

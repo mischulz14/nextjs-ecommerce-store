@@ -1,4 +1,4 @@
-export function showUserMessage(eventTarget) {
+export function showUserMessage(eventTarget: any) {
   eventTarget.closest('.card').classList.add('active');
 
   setTimeout(() => {

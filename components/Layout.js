@@ -1,12 +1,16 @@
 import Head from 'next/head';
-import { ProductContextProvider } from '../context/ProductContext';
+import { useContext, useEffect } from 'react';
+import {
+  ProductContext,
+  ProductContextProvider,
+} from '../context/ProductContext';
 import { ThemeProvider } from '../context/ThemeContext';
 import Footer from './Footer';
 import Navbar from './Navbar';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, foundInCookies }) => {
   return (
-    <ProductContextProvider>
+    <ProductContextProvider foundInCookies={foundInCookies}>
       <ThemeProvider>
         <div className="dark:bg-gray-900">
           <Head>

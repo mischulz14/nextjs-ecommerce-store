@@ -39,3 +39,40 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp;
+
+export async function getServerSideProps(context) {
+  const origamiFigures = await getOrigamiList();
+
+  const cookiesArray = context.req.cookies.count;
+
+  const parsedCookies = JSON.parse(cookiesArray);
+  console.log(parsedCookies);
+
+  // loop over cookies
+  const foundInCookies = parsedCookies
+    .map((cookieInfo) => {
+      return {
+        ...origamiFigures.find((origami) => {
+          if (origami.id === cookieInfo.id) {
+            origami.count = cookieInfo.count;
+            return {
+              ...origami,
+            };
+          }
+        }),
+      };
+    })
+    .map((item) => {
+      return {
+        ...item,
+      };
+    });
+
+  console.log(foundInCookies);
+
+  // find desired cookie object
+
+  return {
+    props: { origamiFigures, foundInCookies: foundInCookies },
+  };
+}
