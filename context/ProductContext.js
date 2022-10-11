@@ -1,4 +1,12 @@
-import { createContext, useState } from 'react';
+import { createContext, Dispatch, SetStateAction, useState } from 'react';
+
+// interface ProductContextProps {
+//   chosenProducts: Array<any>;
+//   setChosenProducts?: Dispatch<SetStateAction<never[]>>;
+//   setRenderComponent?: Dispatch<SetStateAction<boolean>>;
+// }
+
+// const ProductContext = createContext<ProductContextProps>();
 
 const ProductContext = createContext();
 

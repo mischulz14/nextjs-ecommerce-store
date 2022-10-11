@@ -10,14 +10,26 @@ import { addCookie, handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 
-export default function Products({ origamiFigures, foundInCookies }) {
+type WholeProduct = {
+  id: number;
+  name: string;
+  price: number;
+  count: number;
+  firstPicture: string;
+  secondPicture: string;
+  difficulty: number;
+  activePrice: number;
+  activePicture: string;
+  secondColor: string;
+};
+
+export default function Products({ origamiFigures, foundInCookies }: any) {
   const [rendered, setRendered] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState(origamiFigures);
   const [filteredPrice, setFilteredPrice] = useState('30');
   const [filteredDifficulty, setFilteredDifficulty] = useState('10');
   const [userMessage, setUserMessage] = useState('Added to cart!');
   const [showFilter, setShowFilter] = useState(false);
-  const [counter, setCounter] = useState(1);
   const themeContext = useContext(ThemeContext);
   const productContext = useContext(ProductContext);
 
@@ -25,7 +37,7 @@ export default function Products({ origamiFigures, foundInCookies }) {
     productContext.setChosenProducts(foundInCookies);
   }, []);
 
-  function handleFilter(event) {
+  function handleFilter(event: any) {
     event.preventDefault();
 
     const arrayCopy = [...origamiFigures];
@@ -40,9 +52,9 @@ export default function Products({ origamiFigures, foundInCookies }) {
     setShowFilter(false);
   }
 
-  function productAlreadyInCart(product) {
+  function productAlreadyInCart(product: WholeProduct) {
     return productContext.chosenProducts.find(
-      (origami) => origami.id === product.id,
+      (origami: { id: number }) => origami.id === product.id,
     );
   }
 
@@ -89,7 +101,7 @@ export default function Products({ origamiFigures, foundInCookies }) {
               min="0"
               max="30"
               onChange={(event) => {
-                setFilteredPrice(parseInt(event.currentTarget.value));
+                setFilteredPrice(event.currentTarget.value);
               }}
               value={filteredPrice}
             />
@@ -102,7 +114,7 @@ export default function Products({ origamiFigures, foundInCookies }) {
               min="0"
               max="10"
               onChange={(event) => {
-                setFilteredDifficulty(parseInt(event.currentTarget.value));
+                setFilteredDifficulty(event.currentTarget.value);
               }}
               value={filteredDifficulty}
             />
@@ -131,7 +143,7 @@ export default function Products({ origamiFigures, foundInCookies }) {
             </h1>
             <div>
               <ul className="flex flex-wrap gap-12">
-                {filteredProducts.map((product) => {
+                {filteredProducts.map((product: WholeProduct) => {
                   return (
                     <li
                       key={product.id}
@@ -200,7 +212,7 @@ export default function Products({ origamiFigures, foundInCookies }) {
                               decreaseCount(product);
                               handleCookieChange('count', product, false);
                               productContext.setRenderComponent(
-                                (prev) => !prev,
+                                (prev: boolean) => !prev,
                               );
                             }}
                             className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
@@ -220,7 +232,7 @@ export default function Products({ origamiFigures, foundInCookies }) {
                                 increaseCount(product);
                                 handleCookieChange('count', product, true);
                                 productContext.setRenderComponent(
-                                  (prev) => !prev,
+                                  (prev: boolean) => !prev,
                                 );
                               }
                             }}
@@ -248,7 +260,7 @@ export default function Products({ origamiFigures, foundInCookies }) {
                               ]);
                               product.count = 1;
                               productContext.setRenderComponent(
-                                (prev) => !prev,
+                                (prev: boolean) => !prev,
                               );
                             }
                           }}
@@ -267,7 +279,7 @@ export default function Products({ origamiFigures, foundInCookies }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   const origamiFigures = await getOrigamiList();
 
   const parsedCookies = context.req.cookies.count
@@ -276,7 +288,7 @@ export async function getServerSideProps(context) {
 
   // loop over cookies
   const foundInCookies = parsedCookies
-    .map((cookieInfo) => {
+    .map((cookieInfo: { id: number; activePicture: string; count: number }) => {
       return {
         ...origamiFigures.find((origami) => {
           if (origami.id === cookieInfo.id) {
@@ -288,7 +300,7 @@ export async function getServerSideProps(context) {
         }),
       };
     })
-    .map((item) => {
+    .map((item: {}) => {
       return {
         ...item,
       };

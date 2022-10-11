@@ -10,16 +10,29 @@ import { decreaseCount, increaseCount } from '../../utils/count';
 import { showUserMessage } from '../../utils/userMessage';
 import ErrorPage from '../404';
 
-const SingleProductPage = ({ matchedProduct }) => {
+type WholeProduct = {
+  id: number;
+  name: string;
+  price: number;
+  count: number;
+  firstPicture: string;
+  secondPicture: string;
+  difficulty: number;
+  activePrice: number;
+  activePicture: string;
+  secondColor: string;
+};
+
+const SingleProductPage = ({ matchedProduct }: any) => {
   const [rendered, setRendered] = useState(false);
   const [count, setCount] = useState(1);
   const [userMessage, setUserMessage] = useState('');
   const themeContext = useContext(ThemeContext);
   const productContext = useContext(ProductContext);
 
-  function productAlreadyInCart(product) {
+  function productAlreadyInCart(product: WholeProduct) {
     return productContext.chosenProducts.find(
-      (origami) => origami.activePicture === product.activePicture,
+      (origami: { id: number }) => origami.id === product.id,
     );
   }
 
@@ -132,7 +145,7 @@ const SingleProductPage = ({ matchedProduct }) => {
                 decreaseCount(matchedProduct);
                 setCount(matchedProduct.count);
                 handleCookieChange('count', matchedProduct, true);
-                productContext.setRenderComponent((prev) => !prev);
+                productContext.setRenderComponent((prev: boolean) => !prev);
               }}
               className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
             >
@@ -152,7 +165,7 @@ const SingleProductPage = ({ matchedProduct }) => {
                   increaseCount(matchedProduct);
                   setCount(matchedProduct.count);
                   handleCookieChange('count', matchedProduct, true);
-                  productContext.setRenderComponent((prev) => !prev);
+                  productContext.setRenderComponent((prev: boolean) => !prev);
                 }
               }}
               className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
@@ -193,7 +206,7 @@ const SingleProductPage = ({ matchedProduct }) => {
 
 export default SingleProductPage;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   // getting products from database
   const products = await getOrigamiList();
   // you also have to convert the function to an async function!!
