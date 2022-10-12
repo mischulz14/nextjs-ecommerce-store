@@ -49,11 +49,11 @@ const SingleProductPage = (props: ProductProps) => {
         <meta name="description" content="origami single page" />
       </Head>
       <div
-        className={`card px-6 mb-2 min-w-[230px] grow bg-white sm:flex-row flex-col transition-all  border dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 dark:border-t-0 ${
+        className={`card px-6 mb-2 min-w-[230px] overflow-y-scroll min-h-[750px] grow bg-white sm:flex-row flex-col transition-all  border dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 dark:border-t-0 ${
           themeContext.darkMode ? 'dark' : ''
         }`}
       >
-        <div className="absolute top-0 left-0 z-50 flex items-center justify-center w-full h-10 text-center message">
+        <div className="absolute bottom-0 left-0 z-50 flex items-center justify-center w-full h-10 text-center message">
           {userMessage}
         </div>
         <div className="pt-10 sm:pt-0 image-container color-container price-container basis-2/4">
@@ -86,7 +86,6 @@ const SingleProductPage = (props: ProductProps) => {
                   onClick={() => {
                     props.matchedProduct.activePicture =
                       props.matchedProduct.secondPicture;
-
                     setRendered((prev) => !prev);
                   }}
                   className="w-20 h-20 border-2 rounded-full border-slate-400"

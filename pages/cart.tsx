@@ -86,7 +86,7 @@ const Cart = (props: cartProps) => {
                       <button
                         onClick={() => {
                           if (product.count <= 1) return;
-                          decreaseCount(product);
+
                           handleCookieChange('count', product, false);
                           productContext.setChosenProducts((prev: any) => {
                             const found = prev.find(

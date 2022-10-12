@@ -8,20 +8,9 @@ import { getOrigamiList } from '../../data/connect';
 // import origamiFigures from '../../data/data';
 import { addCookie, handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
+import { productAlreadyInCart } from '../../utils/filter';
+import { Product } from '../../utils/types';
 import { showUserMessage } from '../../utils/userMessage';
-
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  count: number;
-  firstPicture: string;
-  secondPicture: string;
-  difficulty: number;
-  activePrice: number;
-  activePicture: string;
-  secondColor: string;
-};
 
 type IndexProps = {
   origamiFigures: Product[];
@@ -57,12 +46,6 @@ export default function Products(props: IndexProps) {
 
     setFilteredProducts(difficultyAndPriceFilteredArray);
     setShowFilter(false);
-  }
-
-  function productAlreadyInCart(product: Product) {
-    return productContext.chosenProducts.find(
-      (origami: { id: number }) => origami.id === product.id,
-    );
   }
 
   return (
@@ -211,17 +194,29 @@ export default function Products(props: IndexProps) {
                           <button
                             onClick={(event) => {
                               const eventTarget = event.currentTarget;
-                              if (productAlreadyInCart(product)) {
-                                setUserMessage('Item already in cart!');
-                                showUserMessage(eventTarget);
-                                return;
-                              }
+
                               if (product.count <= 1) return;
                               decreaseCount(product);
                               handleCookieChange('count', product, false);
-                              productContext.setRenderComponent(
-                                (prev: boolean) => !prev,
-                              );
+                              if (
+                                productAlreadyInCart(product, productContext)
+                              ) {
+                                productContext.setChosenProducts(
+                                  (prev: any) => {
+                                    const found = prev.find(
+                                      (item: any) => item.id === product.id,
+                                    );
+                                    if (found) {
+                                      found.count = product.count;
+                                      return [...prev];
+                                    }
+                                    return [...prev, product];
+                                  },
+                                );
+                                setUserMessage('Item quantity updated!');
+                                showUserMessage(eventTarget);
+                                return;
+                              }
                             }}
                             className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
                           >
@@ -231,17 +226,30 @@ export default function Products(props: IndexProps) {
                           <button
                             onClick={(event) => {
                               const eventTarget = event.currentTarget;
+                              increaseCount(product);
+                              handleCookieChange('count', product, true);
+                              productContext.setRenderComponent(
+                                (prev: boolean) => !prev,
+                              );
 
-                              if (productAlreadyInCart(product)) {
-                                setUserMessage('Item already in cart!');
+                              if (
+                                productAlreadyInCart(product, productContext)
+                              ) {
+                                productContext.setChosenProducts(
+                                  (prev: any) => {
+                                    const found = prev.find(
+                                      (item: any) => item.id === product.id,
+                                    );
+                                    if (found) {
+                                      found.count = product.count;
+                                      return [...prev];
+                                    }
+                                    return [...prev, product];
+                                  },
+                                );
+                                setUserMessage('Item quantity updated!');
                                 showUserMessage(eventTarget);
                                 return;
-                              } else {
-                                increaseCount(product);
-                                handleCookieChange('count', product, true);
-                                productContext.setRenderComponent(
-                                  (prev: boolean) => !prev,
-                                );
                               }
                             }}
                             className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
@@ -254,7 +262,7 @@ export default function Products(props: IndexProps) {
                           onClick={(event) => {
                             const eventTarget = event.currentTarget;
 
-                            if (productAlreadyInCart(product)) {
+                            if (productAlreadyInCart(product, productContext)) {
                               setUserMessage('Item already in cart!');
                               showUserMessage(eventTarget);
                               return;
@@ -266,7 +274,6 @@ export default function Products(props: IndexProps) {
                                 ...productContext.chosenProducts,
                                 { ...product },
                               ]);
-                              product.count = 1;
                               productContext.setRenderComponent(
                                 (prev: boolean) => !prev,
                               );

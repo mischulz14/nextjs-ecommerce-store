@@ -1,10 +1,10 @@
 import '../styles/globals.css';
+import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import Global from '../components/Global';
-import Layout from '../components/Layout';
 import { getOrigamiList } from '../data/connect';
 
-function MyApp({ Component, pageProps, foundInCookies }: any) {
+function MyApp({ Component, pageProps }: AppProps) {
   const [cookiesAccepted, setCookiesAccepted] = useState<any>(false);
 
   useEffect(() => {
@@ -15,9 +15,10 @@ function MyApp({ Component, pageProps, foundInCookies }: any) {
 
   return (
     <>
-      <Global foundInCookies={foundInCookies}>
+      <Global>
         <Component {...pageProps} />
       </Global>
+
       <div
         className={
           !cookiesAccepted

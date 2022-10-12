@@ -2,15 +2,17 @@ import Link from 'next/link';
 import { useContext, useEffect } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { getOrigamiList } from '../data/connect';
+import origamiFigures from '../data/data';
 
 // TODO foundInCookies not found in object?
-const HomeScreen = ({ foundInCookies }: any) => {
+const HomeScreen = ({ foundInCookies, origamiFigures }: any) => {
   const productContext = useContext(ProductContext);
 
   console.log('foundInCookies', foundInCookies);
 
   useEffect(() => {
     productContext.setChosenProducts(foundInCookies);
+    productContext.setFilteredProducts(origamiFigures);
   }, []);
   return (
     <div className="max-w-6xl h-[750px] homescreen flex flex-col items-center">
