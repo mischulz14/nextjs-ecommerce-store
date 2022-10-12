@@ -1,4 +1,10 @@
-import { createContext, Dispatch, SetStateAction, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 
 // interface ProductContextProps {
 //   chosenProducts: Array<never>;

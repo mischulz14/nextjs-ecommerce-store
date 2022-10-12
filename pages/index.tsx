@@ -1,11 +1,13 @@
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { getOrigamiList } from '../data/connect';
 
 // TODO foundInCookies not found in object?
 const HomeScreen = ({ foundInCookies }: any) => {
   const productContext = useContext(ProductContext);
+
+  console.log('foundInCookies', foundInCookies);
 
   useEffect(() => {
     productContext.setChosenProducts(foundInCookies);

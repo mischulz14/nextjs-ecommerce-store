@@ -149,15 +149,34 @@ SECTION === 'CHECKOUT PAGE' === SECTION
   }
 }
 
-@layer components {
-  input {
-    @apply w-full p-2 mb-2 border-2 border-gray-300 focus:outline-none focus:border-slate-400 dark:focus:border-slate-400;
+@layer utilities {
+  .checkout__form input,
+  select {
+    @apply w-[250px] text-sm p-4 mb-8 border-2 border-gray-300 focus:outline-none focus:border-slate-400 dark:focus:border-slate-400 transition-all duration-200 dark:bg-slate-600 dark:text-gray-400;
   }
 }
 
 @layer utilities {
   [class*='checkout__form'] {
     @apply p-4;
+  }
+}
+
+@layer utilities {
+  label {
+    @apply absolute z-50 p-2  text-black duration-200 bg-white transition-[top] -top-5 left-2 dark:bg-slate-600 dark:text-white;
+  }
+}
+
+@layer utilities {
+  .checkout__form input:focus ~ label {
+    @apply bg-transparent -top-6;
+  }
+}
+
+@layer utilities {
+  input:focus {
+    @apply mt-2;
   }
 }
 

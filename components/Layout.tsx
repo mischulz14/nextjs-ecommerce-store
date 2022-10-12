@@ -4,9 +4,9 @@ import { ThemeProvider } from '../context/ThemeContext';
 import Footer from './Footer';
 import Navbar from './Navbar';
 
-const Layout = ({ children, foundInCookies }: any) => {
+const Layout = ({ children }: any) => {
   return (
-    <ProductContextProvider foundInCookies={foundInCookies}>
+    <ProductContextProvider>
       <ThemeProvider>
         <div className="dark:bg-gray-900">
           <Head>
