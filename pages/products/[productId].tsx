@@ -220,6 +220,7 @@ const SingleProductPage = (props: ProductProps) => {
               className="btn-primary mt-4 mb-8 scale-110 hover:scale-[1.2] cart-btn m-0 active:scale-95"
             />
           </div>
+          {/* hallo */}
         </div>
       </div>
     </>
