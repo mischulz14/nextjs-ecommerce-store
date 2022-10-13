@@ -28,7 +28,6 @@ type ProductProps = { matchedProduct: Product; foundInCookies: Product };
 
 const SingleProductPage = (props: ProductProps) => {
   const [rendered, setRendered] = useState(false);
-  const [count, setCount] = useState(1);
   const [userMessage, setUserMessage] = useState('');
   const themeContext = useContext(ThemeContext);
   const productContext = useContext(ProductContext);

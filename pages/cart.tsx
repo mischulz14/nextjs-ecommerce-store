@@ -20,9 +20,9 @@ type WholeProduct = {
   secondColor: string;
 };
 
-type cartProps = { foundInCookies: WholeProduct[] };
+type CartProps = { foundInCookies: WholeProduct[] };
 
-const Cart = (props: cartProps) => {
+const Cart = (props: CartProps) => {
   const productContext = useContext(ProductContext);
 
   useEffect(() => {
@@ -224,7 +224,7 @@ export async function getServerSideProps(context: any) {
         }),
       };
     })
-    .map((item: {}) => {
+    .map((item: Record<string, unknown>) => {
       return {
         ...item,
       };
@@ -233,6 +233,9 @@ export async function getServerSideProps(context: any) {
   // find desired cookie object
 
   return {
-    props: { origamiFigures, foundInCookies: foundInCookies },
+    props: {
+      origamiFigures,
+      foundInCookies: foundInCookies,
+    },
   };
 }

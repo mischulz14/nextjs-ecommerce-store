@@ -315,7 +315,7 @@ export async function getServerSideProps(context: any) {
         }),
       };
     })
-    .map((item: {}) => {
+    .map((item: Record<string, unknown>) => {
       return {
         ...item,
       };
@@ -324,6 +324,9 @@ export async function getServerSideProps(context: any) {
   // find desired cookie object
 
   return {
-    props: { origamiFigures, foundInCookies: foundInCookies },
+    props: {
+      origamiFigures,
+      foundInCookies: foundInCookies,
+    },
   };
 }

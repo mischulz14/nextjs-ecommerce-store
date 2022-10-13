@@ -1,10 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, useState } from 'react';
 
 // interface ProductContextProps {
 //   chosenProducts: Array<never>;
@@ -19,12 +13,17 @@ import {
 
 // const ProductContext = createContext<ProductContextProps>(undefined!);
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const ProductContext = createContext();
 
 function ProductContextProvider(props) {
   const [chosenProducts, setChosenProducts] = useState([]);
   const [renderComponent, setRenderComponent] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  // useEffect(() => {
+  //   setChosenProducts(getParsedCookie('count'));
+  // }, []);
 
   const value = {
     chosenProducts,

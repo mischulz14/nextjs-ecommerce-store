@@ -1,22 +1,23 @@
 import '../styles/globals.css';
-import type { AppProps } from 'next/app';
+// import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
 import Global from '../components/Global';
-import { getOrigamiList } from '../data/connect';
+// import { getOrigamiList } from '../data/connect';
+import { getParsedCookie } from '../utils/cookies';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: any) {
   const [cookiesAccepted, setCookiesAccepted] = useState<any>(false);
 
+  const foundInCookies = getParsedCookie('count');
   useEffect(() => {
     const cookieAcceptance = window.localStorage.getItem('cookiesAccepted');
-
     setCookiesAccepted(cookieAcceptance);
   }, []);
 
   return (
     <>
-      <Global>
-        <Component {...pageProps} />
+      <Global foundInCookies={foundInCookies}>
+        <Component foundInCookies={foundInCookies} {...pageProps} />
       </Global>
 
       <div
@@ -46,36 +47,41 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 export default MyApp;
 
-export async function getServerSideProps(context: any) {
-  const origamiFigures = await getOrigamiList();
+// export async function getServerSideProps(context: any) {
+//   const origamiFigures = await getOrigamiList();
 
-  const cookiesArray = context.req.cookies.count;
+//   const cookiesArray = context.req.cookies.count;
 
-  const parsedCookies = JSON.parse(cookiesArray);
+//   const parsedCookies = JSON.parse(cookiesArray);
 
-  // loop over cookies
-  const foundInCookies = parsedCookies
-    .map((cookieInfo: { id: number; count: number }) => {
-      return {
-        ...origamiFigures.find((origami) => {
-          if (origami.id === cookieInfo.id) {
-            origami.count = cookieInfo.count;
-            return {
-              ...origami,
-            };
-          }
-        }),
-      };
-    })
-    .map((item: {}) => {
-      return {
-        ...item,
-      };
-    });
+//   // loop over cookies
+//   const foundInCookies = parsedCookies
+//     .map((cookieInfo: { id: number; count: number }) => {
+//       return {
+//         ...origamiFigures.find((origami) => {
+//           if (origami.id === cookieInfo.id) {
+//             origami.count = cookieInfo.count;
+//             return {
+//               ...origami,
+//             };
+//           }
+//           return {
+//             ...origami,
+//           };
+//         }),
+//       };
+//     })
+//     .map((item: Record<string, unknown>) => {
+//       return {
+//         ...item,
+//       };
+//     });
 
-  // find desired cookie object
+//   console.log(foundInCookies);
 
-  return {
-    props: { origamiFigures, foundInCookies: foundInCookies },
-  };
-}
+//   // find desired cookie object
+
+//   return {
+//     props: { origamiFigures, foundInCookies: foundInCookies },
+//   };
+// }

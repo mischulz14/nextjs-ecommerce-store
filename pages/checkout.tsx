@@ -1,10 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
 import CountrySelect from '../components/CountrySelect';
 import { ProductContext } from '../context/ProductContext';
+import { getOrigamiList } from '../data/connect';
+import { getTotalCost } from '../utils/getTotal';
 
-const Checkout = () => {
+const Checkout = ({ foundInCookies }: any) => {
   const productContext = useContext(ProductContext);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -17,30 +20,36 @@ const Checkout = () => {
   const [expirationDate, setExpirationDate] = useState('');
   const [securityCode, setSecurityCode] = useState('');
   const [confirmedOrder, setConfirmedOrder] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    productContext.setChosenProducts(foundInCookies);
+  }, []);
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
     console.log('submit');
 
     if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !address ||
-      !city ||
-      !zip ||
-      !country ||
-      !creditCard ||
-      !expirationDate ||
-      !securityCode
+      !firstName
+      // !lastName ||
+      // !email ||
+      // !address ||
+      // !city ||
+      // !zip ||
+      // !country ||
+      // !creditCard ||
+      // !expirationDate ||
+      // !securityCode
     ) {
       alert('Please fill out all fields');
       return;
     }
+    router.push('/');
   };
 
   return (
-    <>
+    <div>
       {!confirmedOrder ? (
         <div className="mx-auto dark:text-white dark:bg-slate-600">
           {/* <span>Checkout</span>
@@ -63,7 +72,6 @@ const Checkout = () => {
                     value={firstName}
                     onChange={(event) => setFirstName(event.target.value)}
                     data-test-id="checkout-first-name"
-                    type="text"
                   />
                   <label htmlFor="first-name">First Name</label>
                 </div>
@@ -73,7 +81,6 @@ const Checkout = () => {
                     value={lastName}
                     onChange={(event) => setLastName(event.target.value)}
                     data-test-id="checkout-last-name"
-                    type="text"
                   />
                   <label htmlFor="last-name">Last Name</label>
                 </div>
@@ -102,7 +109,6 @@ const Checkout = () => {
                     value={address}
                     onChange={(event) => setAddress(event.target.value)}
                     data-test-id="checkout-address"
-                    type="text"
                     placeholder="Street 123"
                   />
                   <label htmlFor="address">Address</label>
@@ -113,7 +119,6 @@ const Checkout = () => {
                     value={city}
                     onChange={(event) => setCity(event.target.value)}
                     data-test-id="checkout-city"
-                    type="text"
                   />
                   <label htmlFor="city">City</label>
                 </div>
@@ -123,7 +128,6 @@ const Checkout = () => {
                     value={zip}
                     onChange={(event) => setZip(event.target.value)}
                     data-test-id="checkout-postal-code"
-                    type="text"
                     placeholder="Postal Code"
                   />
                   <label htmlFor="zip">Zip</label>
@@ -156,7 +160,6 @@ const Checkout = () => {
                     id="expiration-date"
                     value={expirationDate}
                     onChange={(event) => setExpirationDate(event.target.value)}
-                    type="text"
                     data-test-id="checkout-expiration-date"
                     placeholder="Format: MM/YY"
                     maxLength={5}
@@ -168,7 +171,6 @@ const Checkout = () => {
                     id="security-code"
                     value={securityCode}
                     onChange={(event) => setSecurityCode(event.target.value)}
-                    type="text"
                     data-test-id="checkout-security-code"
                     placeholder="Format: 123"
                     maxLength={3}
@@ -178,11 +180,11 @@ const Checkout = () => {
               </div>
             </div>
             <span className="block pb-8 -mt-6 text-lg text-center uppercase">
-              Total Price: {productContext.totalPrice}
+              Total Price: {getTotalCost(productContext.chosenProducts)}
             </span>
 
             <button
-              onClick={() => setConfirmedOrder(true)}
+              // onClick={() => setConfirmedOrder(true)}
               data-test-id="checkout-confirm-order"
               className="mx-auto mb-6 scale-110 btn-primary bg-slate-900 hover:scale-125"
             >
@@ -195,13 +197,51 @@ const Checkout = () => {
           <h1 className="mb-4 uppercase">Thank you for your order!</h1>
           <p className="mb-4">Your purchase is being processed</p>
           <Image width={400} height={400} src="/images/send.gif" />
-          <button className="mt-6 btn-primary">
-            <Link href="/">Return to home page</Link>
-          </button>
+
+          <Link href="/">
+            <button className="mt-6 btn-primary">Return to Homepage</button>
+          </Link>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
 export default Checkout;
+
+export async function getServerSideProps(context: any) {
+  const origamiFigures = await getOrigamiList();
+
+  const parsedCookies = context.req.cookies.count
+    ? JSON.parse(context.req.cookies.count)
+    : [];
+
+  // loop over cookies
+  const foundInCookies = parsedCookies
+    .map((cookieInfo: { id: number; activePicture: string; count: number }) => {
+      return {
+        ...origamiFigures.find((origami) => {
+          if (origami.id === cookieInfo.id) {
+            origami.count = cookieInfo.count;
+            return {
+              ...origami,
+            };
+          }
+        }),
+      };
+    })
+    .map((item: Record<string, unknown>) => {
+      return {
+        ...item,
+      };
+    });
+
+  // find desired cookie object
+
+  return {
+    props: {
+      origamiFigures,
+      foundInCookies: foundInCookies,
+    },
+  };
+}
