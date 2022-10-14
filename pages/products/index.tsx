@@ -31,6 +31,7 @@ export default function Products(props: IndexProps) {
 
   useEffect(() => {
     productContext.setChosenProducts(props.foundInCookies);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleFilter(event: any) {
@@ -305,6 +306,7 @@ export async function getServerSideProps(context: any) {
   const foundInCookies = parsedCookies
     .map((cookieInfo: { id: number; activePicture: string; count: number }) => {
       return {
+        // eslint-disable-next-line array-callback-return
         ...origamiFigures.find((origami) => {
           if (origami.id === cookieInfo.id) {
             origami.count = cookieInfo.count;

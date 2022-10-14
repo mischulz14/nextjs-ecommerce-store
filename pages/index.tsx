@@ -6,7 +6,7 @@ import { getOrigamiList } from '../data/connect';
 // import origamiFigures from '../data/data';
 
 // TODO foundInCookies not found in object?
-const HomeScreen = ({ foundInCookies, origamiFigures }: any) => {
+const HomeScreen = ({ foundInCookies }: any) => {
   const productContext = useContext(ProductContext);
 
   useEffect(() => {

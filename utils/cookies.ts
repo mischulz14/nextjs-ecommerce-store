@@ -125,3 +125,7 @@ export function removeCookie(
 
   setStringifiedCookie(key, filteredCookie);
 }
+
+export function removeAllCookies(key: string) {
+  Cookies.remove(key);
+}

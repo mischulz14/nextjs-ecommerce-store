@@ -1,8 +1,18 @@
+import { useState } from 'react';
+
 const CountrySelect = () => {
+  const [country, setCountry] = useState('');
+
   return (
-    <>
+    <div>
       <div className="relative input-wrapper">
-        <select id="country" name="country" className="">
+        <select
+          value={country}
+          onChange={(event) => setCountry(event.target.value)}
+          id="country"
+          name="country"
+          className=""
+        >
           <option value="Afghanistan">Afghanistan</option>
           <option value="Åland Islands">Åland Islands</option>
           <option value="Albania">Albania</option>
@@ -294,7 +304,7 @@ const CountrySelect = () => {
         </select>
         <label htmlFor="country">Country</label>
       </div>
-    </>
+    </div>
   );
 };
 

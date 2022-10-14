@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { getOrigamiList } from '../data/connect';
 import { addCookie, handleCookieChange, removeCookie } from '../utils/cookies';
-import { decreaseCount, increaseCount } from '../utils/count';
+// import { decreaseCount, increaseCount } from '../utils/count';
 import { getTotalCost } from '../utils/getTotal';
 
 type WholeProduct = {
@@ -27,6 +27,7 @@ const Cart = (props: CartProps) => {
 
   useEffect(() => {
     productContext.setChosenProducts(props.foundInCookies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -213,6 +214,7 @@ export async function getServerSideProps(context: any) {
   const foundInCookies = parsedCookies
     .map((cookieInfo: { id: number; count: number; activePicture: string }) => {
       return {
+        // eslint-disable-next-line array-callback-return
         ...origamiFigures.find((origami) => {
           if (origami.id === cookieInfo.id) {
             origami.count = cookieInfo.count;

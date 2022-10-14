@@ -12,7 +12,7 @@ module.exports = {
   //       connections: [
   //         {
   //           databaseUrl:
-  //             'postgres://next_js_ecommerce:next_js_ecommerce@localhost:5432/next_js_ecommerce',
+  //             'postgres://username:password@localhost:5432/database',
   //           tagname: 'sql',
   //           fieldTransform: 'camel',
   //           transform: '${type}[]',

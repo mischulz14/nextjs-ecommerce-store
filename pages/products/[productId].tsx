@@ -8,30 +8,21 @@ import { getOrigamiList } from '../../data/connect';
 import { addCookie, handleCookieChange } from '../../utils/cookies';
 import { decreaseCount, increaseCount } from '../../utils/count';
 import { productAlreadyInCart } from '../../utils/filter';
+import { Product } from '../../utils/types';
 import { showUserMessage } from '../../utils/userMessage';
 import ErrorPage from '../404';
 
-type Product = {
-  id: number;
-  name: string;
-  price: number;
-  count: number;
-  firstPicture: string;
-  secondPicture: string;
-  difficulty: number;
-  activePrice: number;
-  activePicture: string;
-  secondColor: string;
-};
-
+// eslint-disable-next-line react/no-unused-prop-types
 type ProductProps = { matchedProduct: Product; foundInCookies: Product };
 
 const SingleProductPage = (props: ProductProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rendered, setRendered] = useState(false);
   const [userMessage, setUserMessage] = useState('');
   const themeContext = useContext(ThemeContext);
   const productContext = useContext(ProductContext);
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!props.matchedProduct) {
     return <ErrorPage />;
   }
@@ -146,6 +137,7 @@ const SingleProductPage = (props: ProductProps) => {
                   decreaseCount(props.matchedProduct);
                   handleCookieChange('count', props.matchedProduct, false);
 
+                  /* Updating the state of the productContext. */
                   productContext.setChosenProducts((prev: any) => {
                     const found = prev.find(
                       (item: any) => item.id === props.matchedProduct.id,
@@ -220,7 +212,6 @@ const SingleProductPage = (props: ProductProps) => {
               className="btn-primary mt-4 mb-8 scale-110 hover:scale-[1.2] cart-btn m-0 active:scale-95"
             />
           </div>
-          {/* hallo */}
         </div>
       </div>
     </>
@@ -243,6 +234,7 @@ export async function getServerSideProps(context: any) {
 
   // loop over cookies
   const foundInCookies = parsedCookies.find(
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     (parsedCookies: any) => parsedCookies.id === productId,
   );
 
