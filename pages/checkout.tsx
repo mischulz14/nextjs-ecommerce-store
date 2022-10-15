@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import CountrySelect from '../components/Molecules/CountrySelect';
+import LocationInfoInputs from '../components/Molecules/LocationInfoInputs';
+import PersonalInfoInputs from '../components/Molecules/PersonalInfoInputs';
 import { ProductContext } from '../context/ProductContext';
-import { getOrigamiList } from '../data/connect';
 import { removeAllCookies } from '../utils/cookies';
 import { getTotalCost } from '../utils/getTotal';
 import { getProductListAndCookieInfo } from '../utils/serverSideProps';
@@ -21,11 +21,6 @@ const Checkout = ({ foundInCookies }: any) => {
   const [securityCode, setSecurityCode] = useState('');
   const [country, setCountry] = useState('');
   const router = useRouter();
-
-  // interface IProps {
-  //   country: string;
-  //   setCountry: Dispatch<SetStateAction<string>>;
-  // }
 
   useEffect(() => {
     productContext.setChosenProducts(foundInCookies);
@@ -65,81 +60,24 @@ const Checkout = ({ foundInCookies }: any) => {
           className="mx-auto checkout__form"
         >
           <div className="flex flex-col justify-center gap-2 mx-auto text-black checkout__form-container md:flex-row">
-            <div className="flex flex-col items-center checkout__form__person-info">
-              <div className="checkout__image-wrapper">
-                <Image src="/images/person.svg" width="50" height="50" />
-              </div>
-              <span className="mb-10 text-center text-black uppercase dark:text-white">
-                Personal Info
-              </span>
-              <div className="relative input-wrapper">
-                <input
-                  id="first-name"
-                  value={firstName}
-                  onChange={(event) => setFirstName(event.target.value)}
-                  data-test-id="checkout-first-name"
-                />
-                <label htmlFor="first-name">First Name</label>
-              </div>
-              <div className="relative input-wrapper">
-                <input
-                  id="last-name"
-                  value={lastName}
-                  onChange={(event) => setLastName(event.target.value)}
-                  data-test-id="checkout-last-name"
-                />
-                <label htmlFor="last-name">Last Name</label>
-              </div>
-              <div className="relative input-wrapper">
-                <input
-                  id="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  type="email"
-                  data-test-id="checkout-email"
-                  placeholder="name@provider.com"
-                />
-                <label htmlFor="email">Email</label>
-              </div>
-            </div>
-            <div className="flex flex-col items-center checkout__form__person-location">
-              <div className="checkout__image-wrapper">
-                <Image src="/images/house.svg" width="50" height="50" />
-              </div>
-              <span className="mb-8 text-center text-black uppercase dark:text-white">
-                Location
-              </span>
-              <div className="relative input-wrapper">
-                <input
-                  id="address"
-                  value={address}
-                  onChange={(event) => setAddress(event.target.value)}
-                  data-test-id="checkout-address"
-                  placeholder="Street 123"
-                />
-                <label htmlFor="address">Address</label>
-              </div>
-              <div className="relative input-wrapper">
-                <input
-                  id="city"
-                  value={city}
-                  onChange={(event) => setCity(event.target.value)}
-                  data-test-id="checkout-city"
-                />
-                <label htmlFor="city">City</label>
-              </div>
-              <div className="relative input-wrapper">
-                <input
-                  id="zip"
-                  value={zip}
-                  onChange={(event) => setZip(event.target.value)}
-                  data-test-id="checkout-postal-code"
-                  placeholder="Postal Code"
-                />
-                <label htmlFor="zip">Zip</label>
-              </div>
-              <CountrySelect country={country} setCountry={setCountry} />
-            </div>
+            <PersonalInfoInputs
+              firstName={firstName}
+              setFirstName={setFirstName}
+              lastName={lastName}
+              setLastName={setLastName}
+              email={email}
+              setEmail={setEmail}
+            />
+            <LocationInfoInputs
+              country={country}
+              setCountry={setCountry}
+              address={address}
+              setAddress={setAddress}
+              zip={zip}
+              setZip={setZip}
+              city={city}
+              setCity={setCity}
+            />
             <div className="flex flex-col items-center checkout__form__person-payment-info">
               <div className="checkout__image-wrapper">
                 <Image src="/images/credit-card.svg" width="50" height="50" />

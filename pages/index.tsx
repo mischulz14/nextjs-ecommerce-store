@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import { useContext, useEffect } from 'react';
 import { ProductContext } from '../context/ProductContext';
-import { getOrigamiList } from '../data/connect';
 import { getProductListAndCookieInfo } from '../utils/serverSideProps';
-
-// import origamiFigures from '../data/data';
 
 // TODO foundInCookies not found in object?
 const HomeScreen = ({ foundInCookies }: any) => {

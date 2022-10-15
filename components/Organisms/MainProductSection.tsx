@@ -6,9 +6,6 @@ import { Product } from '../../utils/types';
 import AddToCartBtn from '../Atoms/Buttons/AddToCartBtn';
 import ChangeColorsBtn from '../Atoms/Buttons/ChangeColorsBtn';
 
-// import DecreaseQuantityBtn from '../Atoms/Buttons/DecreaseQuantityBtn';
-// import IncreaseQuantityBtn from '../Atoms/Buttons/IncreaseQuantityBtn';
-
 const MainProductSection = (props: any) => {
   const themeContext = useContext(ThemeContext);
   return (

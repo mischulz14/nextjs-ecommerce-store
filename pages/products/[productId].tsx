@@ -40,7 +40,7 @@ const SingleProductPage = (props: ProductProps) => {
           <div className="absolute bottom-0 left-0 z-50 flex items-center justify-center w-full h-10 text-center message">
             {userMessage}
           </div>
-          <div className="pt-10 sm:pt-0 image-container color-container price-container basis-2/4">
+          <div className="pt-10 sm:pt-0 basis-2/4">
             <div className="border-2 border-black dark:border-white flex flex-col justify-center items-center h-[50%]">
               <div className={themeContext.darkMode ? 'image-wrapper' : ''}>
                 <Image
