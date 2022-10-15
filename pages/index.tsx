@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useContext, useEffect } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { getOrigamiList } from '../data/connect';
+import { getProductListAndCookieInfo } from '../utils/serverSideProps';
 
 // import origamiFigures from '../data/data';
 
@@ -11,6 +12,7 @@ const HomeScreen = ({ foundInCookies }: any) => {
 
   useEffect(() => {
     productContext.setChosenProducts(foundInCookies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -30,35 +32,5 @@ const HomeScreen = ({ foundInCookies }: any) => {
 export default HomeScreen;
 
 export async function getServerSideProps(context: any) {
-  const origamiFigures: any = await getOrigamiList();
-
-  const parsedCookies = context.req.cookies.count
-    ? JSON.parse(context.req.cookies.count)
-    : [];
-
-  // loop over cookies
-  const foundInCookies = parsedCookies
-    .map((cookieInfo: { id: number; count: number }) => {
-      return {
-        ...origamiFigures.find((origami: any) => {
-          if (origami.id === cookieInfo.id) {
-            origami.count = cookieInfo.count;
-            return {
-              ...origami,
-            };
-          }
-        }),
-      };
-    })
-    .map((item: Record<string, unknown>) => {
-      return {
-        ...item,
-      };
-    });
-
-  // find desired cookie object
-
-  return {
-    props: { origamiFigures, foundInCookies: foundInCookies },
-  };
+  return await getProductListAndCookieInfo(context);
 }

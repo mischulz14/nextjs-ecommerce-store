@@ -13,7 +13,6 @@ import { createContext, useState } from 'react';
 
 // const ProductContext = createContext<ProductContextProps>(undefined!);
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const ProductContext = createContext();
 
 function ProductContextProvider(props) {

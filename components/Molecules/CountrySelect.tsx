@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
-const CountrySelect = () => {
-  const [country, setCountry] = useState('');
-
+const CountrySelect = (props: {
+  country: string;
+  setCountry: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <div>
       <div className="relative input-wrapper">
         <select
-          value={country}
-          onChange={(event) => setCountry(event.target.value)}
+          value={props.country}
+          onChange={(event) => props.setCountry(event.target.value)}
           id="country"
           name="country"
           className=""

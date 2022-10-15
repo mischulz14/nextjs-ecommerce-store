@@ -1,26 +1,24 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useContext, useState } from 'react';
-import { ProductContext } from '../../context/ProductContext';
+import AddToCartBtn from '../../components/Atoms/Buttons/AddToCartBtn';
+import ChangeColorsBtn from '../../components/Atoms/Buttons/ChangeColorsBtn';
+import DecreaseQuantityBtn from '../../components/Atoms/Buttons/DecreaseQuantityBtn';
+import IncreaseQuantityBtn from '../../components/Atoms/Buttons/IncreaseQuantityBtn';
+import ProductDescription from '../../components/Atoms/TextElements/ProductDescription';
 import { ThemeContext } from '../../context/ThemeContext';
-import { getOrigamiList } from '../../data/connect';
-// import origamiFigures from '../../data/data';
-import { addCookie, handleCookieChange } from '../../utils/cookies';
-import { decreaseCount, increaseCount } from '../../utils/count';
-import { productAlreadyInCart } from '../../utils/filter';
+import { getServerSidePropsAndUpdateSingleProduct } from '../../utils/serverSidePropsSingleProduct';
 import { Product } from '../../utils/types';
-import { showUserMessage } from '../../utils/userMessage';
 import ErrorPage from '../404';
 
 // eslint-disable-next-line react/no-unused-prop-types
-type ProductProps = { matchedProduct: Product; foundInCookies: Product };
+type ProductProps = { matchedProduct: Product };
 
 const SingleProductPage = (props: ProductProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rendered, setRendered] = useState(false);
   const [userMessage, setUserMessage] = useState('');
   const themeContext = useContext(ThemeContext);
-  const productContext = useContext(ProductContext);
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!props.matchedProduct) {
@@ -60,24 +58,9 @@ const SingleProductPage = (props: ProductProps) => {
                   COLORS
                 </span>
                 <div className="flex gap-4">
-                  <button
-                    onClick={() => {
-                      props.matchedProduct.activePicture =
-                        props.matchedProduct.firstPicture;
-                      setRendered((prev) => !prev);
-                    }}
-                    className="w-20 h-20 bg-white border-2 rounded-full border-slate-400"
-                  />
-                  <button
-                    onClick={() => {
-                      props.matchedProduct.activePicture =
-                        props.matchedProduct.secondPicture;
-                      setRendered((prev) => !prev);
-                    }}
-                    className="w-20 h-20 border-2 rounded-full border-slate-400"
-                    style={{
-                      backgroundColor: props.matchedProduct.secondColor,
-                    }}
+                  <ChangeColorsBtn
+                    matchedProduct={props.matchedProduct}
+                    setRendered={setRendered}
                   />
                 </div>
               </div>
@@ -99,117 +82,24 @@ const SingleProductPage = (props: ProductProps) => {
             <span className="pb-1 mb-8 text-xl text-center border-b-2 border-slate-300">
               DESCRIPTION
             </span>
-            {props.matchedProduct.difficulty < 4 && (
-              <span className="inline-block p-4 text-lg text-center border-2 sm:p-10 sm:mx-10 border-slate-300">
-                This {props.matchedProduct.name} provides an easy challenge
-                which can be solved faster than other origami challenges. This
-                is a perfect project from beginners to advanced origami lovers,
-                who want to fold an elegant looking origami without having to
-                think to much.{' '}
-              </span>
-            )}
-
-            {props.matchedProduct.difficulty >= 5 &&
-            props.matchedProduct.difficulty <= 8 ? (
-              <span className="inline-block p-4 text-lg text-center border-2 border-slate-300 sm:p-10 sm:mx-10">
-                This {props.matchedProduct.name} provides an intermediate
-                challenge which has be solved with more effort than other
-                origami challenges. This is a project for intermediate or
-                advanced origami lovers, who want to have a challenge while
-                folding their origami.{' '}
-              </span>
-            ) : null}
-
-            {props.matchedProduct.difficulty > 8 && (
-              <span className="inline-block p-4 text-lg text-center border-2 border-slate-300 sm:p-10 sm:mx-10">
-                This {props.matchedProduct.name} provides a hard challenge which
-                requires more time and brainpower than other origami challenges.
-                This is a project for advanced origami lovers, who really want
-                to have a challenge while folding exceptionally looking origami.{' '}
-              </span>
-            )}
+            <ProductDescription matchedProduct={props.matchedProduct} />
             <div className="flex items-center justify-center gap-2 mt-6 mb-4 font-bold text-center">
-              <button
-                onClick={(event) => {
-                  const eventTarget = event.currentTarget;
-
-                  if (props.matchedProduct.count <= 1) return;
-                  decreaseCount(props.matchedProduct);
-                  handleCookieChange('count', props.matchedProduct, false);
-
-                  /* Updating the state of the productContext. */
-                  productContext.setChosenProducts((prev: any) => {
-                    const found = prev.find(
-                      (item: any) => item.id === props.matchedProduct.id,
-                    );
-                    if (found) {
-                      found.count = props.matchedProduct.count;
-                      return [...prev];
-                    }
-                    return [...prev, props.matchedProduct];
-                  });
-                  setUserMessage('Item quantity updated!');
-                  showUserMessage(eventTarget);
-                  return;
-                }}
-                className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
-              >
-                -
-              </button>
+              <DecreaseQuantityBtn
+                setUserMessage={setUserMessage}
+                matchedProduct={props.matchedProduct}
+              />
               <span data-test-id="product-quantity">
                 {props.matchedProduct.count}
               </span>
-              <button
-                onClick={(event) => {
-                  const eventTarget = event.currentTarget;
-
-                  increaseCount(props.matchedProduct);
-                  handleCookieChange('count', props.matchedProduct, true);
-
-                  productContext.setChosenProducts((prev: any) => {
-                    const found = prev.find(
-                      (item: any) => item.id === props.matchedProduct.id,
-                    );
-                    if (found) {
-                      found.count = props.matchedProduct.count;
-                      return [...prev];
-                    }
-                    return [...prev, props.matchedProduct];
-                  });
-                  setUserMessage('Item quantity updated!');
-                  showUserMessage(eventTarget);
-                  return;
-                }}
-                className="mt-2 font-bold scale-90 btn-secondary hover:text-gray-900"
-              >
-                +
-              </button>
+              <IncreaseQuantityBtn
+                setUserMessage={setUserMessage}
+                matchedProduct={props.matchedProduct}
+              />
             </div>
-
-            <button
-              data-test-id="product-add-to-cart"
-              onClick={(event) => {
-                const eventTarget = event.currentTarget;
-                if (
-                  productAlreadyInCart(props.matchedProduct, productContext)
-                ) {
-                  setUserMessage('Item already in cart!');
-                  showUserMessage(eventTarget);
-                  return;
-                } else {
-                  addCookie('count', props.matchedProduct);
-                  setUserMessage('Item added to cart!');
-                  showUserMessage(eventTarget);
-
-                  productContext.setChosenProducts([
-                    ...productContext.chosenProducts,
-                    { ...props.matchedProduct },
-                  ]);
-
-                  setRendered((prev) => !prev);
-                }
-              }}
-              className="btn-primary mt-4 mb-8 scale-110 hover:scale-[1.2] cart-btn m-0 active:scale-95"
+            <AddToCartBtn
+              matchedProduct={props.matchedProduct}
+              setUserMessage={setUserMessage}
+              setRendered={setRendered}
             />
           </div>
         </div>
@@ -221,39 +111,5 @@ const SingleProductPage = (props: ProductProps) => {
 export default SingleProductPage;
 
 export async function getServerSideProps(context: any) {
-  // getting products from database
-  const products = await getOrigamiList();
-  // you also have to convert the function to an async function!!
-
-  const productId = parseInt(context.query.productId);
-  const matchedProduct = products.find((product) => product.id === productId);
-
-  const parsedCookies = context.req.cookies.count
-    ? JSON.parse(context.req.cookies.count)
-    : [];
-
-  // loop over cookies
-  const foundInCookies = parsedCookies.find(
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    (parsedCookies: any) => parsedCookies.id === productId,
-  );
-
-  if (foundInCookies) {
-    //  @ts-ignore
-    matchedProduct.count = foundInCookies.count;
-  }
-
-  if (matchedProduct === undefined) {
-    return {
-      props: {
-        error: 'Page not found',
-      },
-    };
-  }
-
-  return {
-    props: {
-      matchedProduct,
-    },
-  };
+  return await getServerSidePropsAndUpdateSingleProduct(context);
 }

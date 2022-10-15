@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { useContext, useState } from 'react';
-import { ProductContext } from '../context/ProductContext';
-import { ThemeContext } from '../context/ThemeContext';
+import { ProductContext } from '../../context/ProductContext';
+import { ThemeContext } from '../../context/ThemeContext';
 // import origamiFigures from '../data/data';
-import { getTotalQuantity } from '../utils/getTotal';
+import { getTotalQuantity } from '../../utils/getTotal';
 
 const Navbar = () => {
   const themeContext = useContext(ThemeContext);

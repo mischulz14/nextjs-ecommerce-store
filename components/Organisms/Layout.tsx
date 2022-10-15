@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { ProductContextProvider } from '../context/ProductContext';
-import { ThemeProvider } from '../context/ThemeContext';
-import Footer from './Footer';
+import { ProductContextProvider } from '../../context/ProductContext';
+import { ThemeProvider } from '../../context/ThemeContext';
+import Footer from '../Molecules/Footer';
 import Navbar from './Navbar';
 
 const Layout = ({ children }: any) => {

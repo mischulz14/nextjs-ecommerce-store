@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 // import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
-import Global from '../components/Global';
+import Global from '../components/Organisms/Global';
 // import { getOrigamiList } from '../data/connect';
 import { getParsedCookie } from '../utils/cookies';
 

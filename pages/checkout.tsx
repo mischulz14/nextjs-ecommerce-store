@@ -1,11 +1,12 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
-import CountrySelect from '../components/CountrySelect';
+import CountrySelect from '../components/Molecules/CountrySelect';
 import { ProductContext } from '../context/ProductContext';
 import { getOrigamiList } from '../data/connect';
 import { removeAllCookies } from '../utils/cookies';
 import { getTotalCost } from '../utils/getTotal';
+import { getProductListAndCookieInfo } from '../utils/serverSideProps';
 
 const Checkout = ({ foundInCookies }: any) => {
   const productContext = useContext(ProductContext);
@@ -18,6 +19,7 @@ const Checkout = ({ foundInCookies }: any) => {
   const [creditCard, setCreditCard] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
   const [securityCode, setSecurityCode] = useState('');
+  const [country, setCountry] = useState('');
   const router = useRouter();
 
   // interface IProps {
@@ -27,6 +29,7 @@ const Checkout = ({ foundInCookies }: any) => {
 
   useEffect(() => {
     productContext.setChosenProducts(foundInCookies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = (event: any) => {
@@ -135,7 +138,7 @@ const Checkout = ({ foundInCookies }: any) => {
                 />
                 <label htmlFor="zip">Zip</label>
               </div>
-              <CountrySelect />
+              <CountrySelect country={country} setCountry={setCountry} />
             </div>
             <div className="flex flex-col items-center checkout__form__person-payment-info">
               <div className="checkout__image-wrapper">
@@ -202,38 +205,5 @@ const Checkout = ({ foundInCookies }: any) => {
 export default Checkout;
 
 export async function getServerSideProps(context: any) {
-  const origamiFigures = await getOrigamiList();
-
-  const parsedCookies = context.req.cookies.count
-    ? JSON.parse(context.req.cookies.count)
-    : [];
-
-  // loop over cookies
-  const foundInCookies = parsedCookies
-    .map((cookieInfo: { id: number; activePicture: string; count: number }) => {
-      return {
-        ...origamiFigures.find((origami) => {
-          if (origami.id === cookieInfo.id) {
-            origami.count = cookieInfo.count;
-            return {
-              ...origami,
-            };
-          }
-        }),
-      };
-    })
-    .map((item: Record<string, unknown>) => {
-      return {
-        ...item,
-      };
-    });
-
-  // find desired cookie object
-
-  return {
-    props: {
-      origamiFigures,
-      foundInCookies: foundInCookies,
-    },
-  };
+  return await getProductListAndCookieInfo(context);
 }
