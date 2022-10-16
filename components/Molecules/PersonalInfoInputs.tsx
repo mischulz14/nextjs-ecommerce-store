@@ -1,6 +1,14 @@
 import Image from 'next/image';
+import { Dispatch, SetStateAction } from 'react';
 
-const PersonalInfoInputs = (props: any) => {
+const PersonalInfoInputs = (props: {
+  firstName: string;
+  setFirstName: Dispatch<SetStateAction<string>>;
+  lastName: string;
+  setLastName: Dispatch<SetStateAction<string>>;
+  email: string;
+  setEmail: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <div className="flex flex-col items-center checkout__form__person-info">
       <div className="checkout__image-wrapper">

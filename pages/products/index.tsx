@@ -1,15 +1,8 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
-import AddToCartBtn from '../../components/Atoms/Buttons/AddToCartBtn';
-import ChangeColorsBtn from '../../components/Atoms/Buttons/ChangeColorsBtn';
-import DecreaseQuantityBtn from '../../components/Atoms/Buttons/DecreaseQuantityBtn';
-import IncreaseQuantityBtn from '../../components/Atoms/Buttons/IncreaseQuantityBtn';
 import ProductFilter from '../../components/Molecules/ProductFilter';
 import MainProductSection from '../../components/Organisms/MainProductSection';
 import { ProductContext } from '../../context/ProductContext';
-import { ThemeContext } from '../../context/ThemeContext';
 import origamiFigures from '../../data/data';
 import { getProductListAndCookieInfo } from '../../utils/serverSideProps';
 import { Product } from '../../utils/types';
@@ -28,7 +21,6 @@ export default function Products(props: IndexProps) {
   const [filteredDifficulty, setFilteredDifficulty] = useState('10');
   const [userMessage, setUserMessage] = useState('Added to cart!');
   const [showFilter, setShowFilter] = useState(false);
-  const themeContext = useContext(ThemeContext);
   const productContext = useContext(ProductContext);
 
   useEffect(() => {

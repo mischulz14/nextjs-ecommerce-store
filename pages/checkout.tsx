@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import LocationInfoInputs from '../components/Molecules/LocationInfoInputs';
+import PaymentDetailInputs from '../components/Molecules/PaymentDetailInputs';
 import PersonalInfoInputs from '../components/Molecules/PersonalInfoInputs';
 import { ProductContext } from '../context/ProductContext';
 import { removeAllCookies } from '../utils/cookies';
@@ -78,53 +79,21 @@ const Checkout = ({ foundInCookies }: any) => {
               city={city}
               setCity={setCity}
             />
-            <div className="flex flex-col items-center checkout__form__person-payment-info">
-              <div className="checkout__image-wrapper">
-                <Image src="/images/credit-card.svg" width="50" height="50" />
-              </div>
-              <span className="mb-10 text-center text-black uppercase dark:text-white">
-                Payment Details
-              </span>
-              <div className="relative input-wrapper">
-                <input
-                  value={creditCard}
-                  onChange={(event) => setCreditCard(event.target.value)}
-                  id="ccn"
-                  type="tel"
-                  inputMode="numeric"
-                  pattern="[0-9\s]{13,19}"
-                  autoComplete="cc-number"
-                  maxLength={19}
-                  placeholder="xxxx xxxx xxxx xxxx"
-                />
-                <label htmlFor="credit-card">Credit Card</label>
-              </div>
-              <div className="relative input-wrapper">
-                <input
-                  id="expiration-date"
-                  value={expirationDate}
-                  onChange={(event) => setExpirationDate(event.target.value)}
-                  data-test-id="checkout-expiration-date"
-                  placeholder="Format: MM/YY"
-                  maxLength={5}
-                />
-                <label htmlFor="expiration-date">Expiration Date</label>
-              </div>
-              <div className="relative input-wrapper">
-                <input
-                  id="security-code"
-                  value={securityCode}
-                  onChange={(event) => setSecurityCode(event.target.value)}
-                  data-test-id="checkout-security-code"
-                  placeholder="Format: 123"
-                  maxLength={3}
-                />
-                <label htmlFor="security-code">Security Code</label>
-              </div>
-            </div>
+            <PaymentDetailInputs
+              creditCard={creditCard}
+              setCreditCard={setCreditCard}
+              expirationDate={expirationDate}
+              setExpirationDate={setExpirationDate}
+              securityCode={securityCode}
+              setSecurityCode={setSecurityCode}
+            />
           </div>
-          <span className="block pb-8 -mt-6 text-lg text-center uppercase">
-            Total Price: {getTotalCost(productContext.chosenProducts)}
+
+          <span className="block -mt-6 text-lg text-center uppercase">
+            Total Price:
+          </span>
+          <span className="inline-block w-full pt-2 pb-8 text-lg text-center">
+            {getTotalCost(productContext.chosenProducts)}
           </span>
 
           <button

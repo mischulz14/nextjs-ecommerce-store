@@ -13,6 +13,7 @@ type CartProps = { foundInCookies: Product[] };
 
 const Cart = (props: CartProps) => {
   const productContext = useContext(ProductContext);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rendered, setRendered] = useState(false);
 
   useEffect(() => {

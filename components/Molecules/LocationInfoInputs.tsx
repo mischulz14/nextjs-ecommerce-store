@@ -1,7 +1,17 @@
 import Image from 'next/image';
+import { Dispatch, SetStateAction } from 'react';
 import CountrySelect from './CountrySelect';
 
-const LocationInfoInputs = (props: any) => {
+const LocationInfoInputs = (props: {
+  address: string;
+  setAddress: Dispatch<SetStateAction<string>>;
+  city: string;
+  setCity: Dispatch<SetStateAction<string>>;
+  zip: string;
+  setZip: Dispatch<SetStateAction<string>>;
+  country: string;
+  setCountry: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <div className="flex flex-col items-center checkout__form__person-location">
       <div className="checkout__image-wrapper">
