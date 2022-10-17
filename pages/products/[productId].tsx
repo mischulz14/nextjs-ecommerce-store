@@ -1,24 +1,32 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AddToCartBtn from '../../components/Atoms/Buttons/AddToCartBtn';
 import ChangeColorsBtn from '../../components/Atoms/Buttons/ChangeColorsBtn';
 import DecreaseQuantityBtn from '../../components/Atoms/Buttons/DecreaseQuantityBtn';
 import IncreaseQuantityBtn from '../../components/Atoms/Buttons/IncreaseQuantityBtn';
 import ProductDescription from '../../components/Atoms/TextElements/ProductDescription';
+import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import { getServerSidePropsAndUpdateSingleProduct } from '../../utils/serverSidePropsSingleProduct';
 import { Product } from '../../utils/types';
 import ErrorPage from '../404';
 
-// eslint-disable-next-line react/no-unused-prop-types
 type ProductProps = { matchedProduct: Product };
 
-const SingleProductPage = (props: ProductProps) => {
+const SingleProductPage = (props: any) => {
+  const productContext = useContext(ProductContext);
+
+  useEffect(() => {
+    productContext.setChosenProducts(props.foundCookies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rendered, setRendered] = useState(false);
   const [userMessage, setUserMessage] = useState('');
   const themeContext = useContext(ThemeContext);
+  const [count, setCount] = useState(1);
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!props.matchedProduct) {
@@ -87,19 +95,20 @@ const SingleProductPage = (props: ProductProps) => {
               <DecreaseQuantityBtn
                 setUserMessage={setUserMessage}
                 matchedProduct={props.matchedProduct}
+                setRendered={setRendered}
               />
-              <span data-test-id="product-quantity">
-                {props.matchedProduct.count}
-              </span>
+              <span data-test-id="product-quantity">{count}</span>
               <IncreaseQuantityBtn
                 setUserMessage={setUserMessage}
                 matchedProduct={props.matchedProduct}
+                setCount={setCount}
               />
             </div>
             <AddToCartBtn
               matchedProduct={props.matchedProduct}
               setUserMessage={setUserMessage}
               setRendered={setRendered}
+              setCount={setCount}
             />
           </div>
         </div>

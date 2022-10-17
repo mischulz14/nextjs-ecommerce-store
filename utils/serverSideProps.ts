@@ -27,8 +27,6 @@ export async function getProductListAndCookieInfo(context: any) {
       };
     });
 
-  // find desired cookie object
-
   return {
     props: { origamiFigures, foundInCookies: foundInCookies },
   };

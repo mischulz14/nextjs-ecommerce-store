@@ -10,3 +10,8 @@ export type Product = {
   activePicture: string;
   secondColor: string;
 };
+
+export type IndexProps = {
+  origamiFigures: Product[];
+  foundInCookies: Product;
+};

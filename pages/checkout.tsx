@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import LocationInfoInputs from '../components/Molecules/LocationInfoInputs';
@@ -54,8 +53,6 @@ const Checkout = ({ foundInCookies }: any) => {
   return (
     <div>
       <div className="mx-auto dark:text-white dark:bg-slate-600">
-        {/* <span>Checkout</span>
-      <span>{productContext.totalPrice}</span> */}
         <form
           onSubmit={(event) => handleSubmit(event)}
           className="mx-auto checkout__form"
@@ -97,7 +94,6 @@ const Checkout = ({ foundInCookies }: any) => {
           </span>
 
           <button
-            // onClick={() => setConfirmedOrder(true)}
             data-test-id="checkout-confirm-order"
             className="mx-auto mb-6 scale-110 btn-primary bg-slate-900 hover:scale-125"
           >

@@ -59,17 +59,6 @@ const MainProductSection = (props: any) => {
                     <span className="text-lg font-bold">{product.price}$</span>
                   </div>
                   <div>
-                    {/* <div className="flex items-center justify-center gap-2 mt-6 mb-4 font-bold text-center">
-                      <DecreaseQuantityBtn
-                        setUserMessage={props.setUserMessage}
-                        matchedProduct={product}
-                      />
-                      <span>{product.count}</span>
-                      <IncreaseQuantityBtn
-                        setUserMessage={props.setUserMessage}
-                        matchedProduct={product}
-                      />
-                    </div> */}
                     <AddToCartBtn
                       matchedProduct={product}
                       setUserMessage={props.setUserMessage}

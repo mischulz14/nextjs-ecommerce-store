@@ -25,7 +25,7 @@ const Cart = (props: CartProps) => {
     <div className="max-w-6xl sm:h-[85vh] border-l-2 border-r-2 border-b-2 sm:flex-initial sm:flex-row flex flex-col  dark:text-white ">
       <div className="border-2 chosen-items basis-3/5">
         <ul className="h-full sm:overflow-y-scroll">
-          {productContext.chosenProducts?.map((product: Product) => {
+          {productContext.chosenProducts.map((product: Product) => {
             return (
               <li
                 data-test-id={`cart-product-${product.id}`}

@@ -29,7 +29,10 @@ const CartSummary = () => {
         data-test-id="cart-total"
         className="m-8 text-3xl font-bold text-center"
       >
-        Total Price: {getTotalCost(productContext.chosenProducts)}
+        <span>Total Price:</span>{' '}
+        <span className="cart-total">
+          {getTotalCost(productContext.chosenProducts)}
+        </span>
       </div>
       <div className="relative flex items-center justify-center mt-14">
         <Link href="/checkout">

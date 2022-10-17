@@ -12,6 +12,25 @@ export async function getServerSidePropsAndUpdateSingleProduct(context: any) {
     ? JSON.parse(context.req.cookies.count)
     : [];
 
+  const foundCookies = parsedCookies
+    .map((cookieInfo: { id: number; count: number }) => {
+      return {
+        ...products.find((origami: Record<string, unknown>) => {
+          if (origami.id === cookieInfo.id) {
+            origami.count = cookieInfo.count;
+            return {
+              ...origami,
+            };
+          }
+        }),
+      };
+    })
+    .map((item: Record<string, unknown>) => {
+      return {
+        ...item,
+      };
+    });
+
   // loop over cookies
   const foundInCookies = parsedCookies.find(
     // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -34,6 +53,7 @@ export async function getServerSidePropsAndUpdateSingleProduct(context: any) {
   return {
     props: {
       matchedProduct,
+      foundCookies,
     },
   };
 }

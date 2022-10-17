@@ -20,7 +20,6 @@ const AddToCartBtn = (props: any) => {
           addCookie('count', props.matchedProduct);
           props.setUserMessage('Item added to cart!');
           showUserMessage(eventTarget);
-
           productContext.setChosenProducts([
             ...productContext.chosenProducts,
             { ...props.matchedProduct },
@@ -29,7 +28,7 @@ const AddToCartBtn = (props: any) => {
           props.setRendered((prev: boolean) => !prev);
         }
       }}
-      className="btn-primary mt-4 hover:scale-[1.1] cart-btn active:scale-95"
+      className="btn-primary mt-4 hover:scale-[1.1] cart-btn active:scale-95 add-to-cart-btn"
     />
   );
 };

@@ -5,12 +5,7 @@ import MainProductSection from '../../components/Organisms/MainProductSection';
 import { ProductContext } from '../../context/ProductContext';
 import origamiFigures from '../../data/data';
 import { getProductListAndCookieInfo } from '../../utils/serverSideProps';
-import { Product } from '../../utils/types';
-
-type IndexProps = {
-  origamiFigures: Product[];
-  foundInCookies: Product[];
-};
+import { IndexProps } from '../../utils/types';
 
 export default function Products(props: IndexProps) {
   const [rendered, setRendered] = useState(false);
@@ -37,8 +32,6 @@ export default function Products(props: IndexProps) {
       .filter((origami) => origami.price <= parseInt(filteredPrice))
       .filter((origami) => origami.difficulty <= parseInt(filteredDifficulty));
 
-    // ? why doesn't this work with === ?
-
     setFilteredProducts(difficultyAndPriceFilteredArray);
     setShowFilter(false);
   }
@@ -50,7 +43,6 @@ export default function Products(props: IndexProps) {
         <title>All Origamis</title>
         <meta name="description" content="list page of origamis" />
       </Head>
-      {/* FILTER SECTION */}
       <div className="relative flex flex-col sm:flex-row">
         <ProductFilter
           setShowFilter={setShowFilter}
@@ -63,7 +55,6 @@ export default function Products(props: IndexProps) {
           setFilteredProducts={setFilteredProducts}
           origamiFigures={origamiFigures}
         />
-        {/* MAIN PRODUCT SECTION */}
         <div>
           <MainProductSection
             filteredProducts={filteredProducts}
