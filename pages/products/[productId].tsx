@@ -97,7 +97,15 @@ const SingleProductPage = (props: any) => {
                 count={count}
                 setCount={setCount}
               />
-              <span data-test-id="product-quantity">{count}</span>
+              <input
+                type="number"
+                min="1"
+                value={count}
+                onChange={(event) => setCount(Number(event.target.value))}
+                data-test-id="product-quantity"
+                placeholder="1"
+                className="w-10 h-10 mt-2 pb-1 pl-3 text-center flex justify-center items-center text-black dark:text-white bg-transparent border-2 border-black dark:border-slate-300 "
+              />
               <IncreaseQuantityBtn
                 setUserMessage={setUserMessage}
                 matchedProduct={props.matchedProduct}
@@ -108,6 +116,7 @@ const SingleProductPage = (props: any) => {
               matchedProduct={props.matchedProduct}
               setUserMessage={setUserMessage}
               setRendered={setRendered}
+              count={count}
               setCount={setCount}
             />
           </div>

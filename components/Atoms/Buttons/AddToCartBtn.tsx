@@ -28,7 +28,7 @@ const AddToCartBtn = (props: any) => {
           props.setRendered((prev: boolean) => !prev);
         }
       }}
-      className="btn-primary mt-4 hover:scale-[1.1] cart-btn active:scale-95 add-to-cart-btn"
+      className="btn-primary mt-4 hover:scale-[1.1] cart-btn active:scale-95"
     />
   );
 };

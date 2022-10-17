@@ -12,6 +12,7 @@ export default function Products(props: IndexProps) {
   const [filteredProducts, setFilteredProducts] = useState(
     props.origamiFigures,
   );
+  const [count, setCount] = useState(1);
   const [filteredPrice, setFilteredPrice] = useState('30');
   const [filteredDifficulty, setFilteredDifficulty] = useState('10');
   const [userMessage, setUserMessage] = useState('Added to cart!');
@@ -20,6 +21,7 @@ export default function Products(props: IndexProps) {
 
   useEffect(() => {
     productContext.setChosenProducts(props.foundInCookies);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleFilter(event: any) {
@@ -60,6 +62,7 @@ export default function Products(props: IndexProps) {
             userMessage={userMessage}
             setUserMessage={setUserMessage}
             setRendered={setRendered}
+            setCount={setCount}
           />
         </div>
       </div>
