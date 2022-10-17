@@ -38,7 +38,7 @@ test('test price after adding to cart', async ({ page }) => {
 test('test changing quantity in the single product page', async ({ page }) => {
   await page.goto('http://localhost:3000/products/19');
   await page.locator('.modal-btn').click();
-  await page.locator('.increase-btn').click();
+  await page.locator('role=button[name="+"]').click();
   await page.locator('.add-to-cart-btn').click();
   await expect(page.locator(':nth-match(.cart-test, 1)')).toHaveText('2');
 });
@@ -70,7 +70,6 @@ test('test checkout button', async ({ page }) => {
   await expect(page).toHaveURL('http://localhost:3000/checkout');
 });
 
-// TODO fix this test (doesn't work)
 test('test checkout form', async ({ page }) => {
   await page.goto('http://localhost:3000/products');
   await page.locator('.modal-btn').click();
