@@ -10,8 +10,8 @@ const DecreaseQuantityBtn = (props: any) => {
     <button
       onClick={(event) => {
         const eventTarget = event.currentTarget;
-
-        if (props.matchedProduct.count <= 1) return;
+        if (props.count <= 1) return;
+        props.setCount((prev: number) => prev - 1);
         decreaseCount(props.matchedProduct);
         handleCookieChange('count', props.matchedProduct, false);
 

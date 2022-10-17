@@ -31,6 +31,7 @@ const CartWagon = (props: {
       <Link href="/cart">
         <div className="absolute flex items-center justify-center w-4 h-4 p-3 text-sm text-white rounded-full -right-1 -top-2 bg-slate-500 cart-test">
           {getTotalQuantity(productContext.chosenProducts)}
+          {productContext.renderComponent}
         </div>
       </Link>
     </button>

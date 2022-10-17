@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Link from 'next/link';
 import { useContext, useEffect } from 'react';
 import { ProductContext } from '../context/ProductContext';
@@ -13,16 +14,22 @@ const HomeScreen = ({ foundInCookies }: any) => {
   }, []);
 
   return (
-    <div className="max-w-6xl h-[750px] homescreen flex flex-col items-center">
-      <h1 className="px-6 mt-16 text-3xl text-center text-gray-600">
-        DO YOU LOVE ORIGAMI?
-      </h1>
-      <Link href="/products">
-        <button className="mt-10 scale-125 btn-primary hover:scale-[1.3]">
-          Start Shopping
-        </button>
-      </Link>
-    </div>
+    <>
+      <Head>
+        <title>Home Page</title>
+        <meta name="description" content="home page" />
+      </Head>
+      <div className="max-w-6xl h-[750px] homescreen flex flex-col items-center">
+        <h1 className="px-6 mt-16 text-3xl text-center text-gray-600">
+          DO YOU LOVE ORIGAMI?
+        </h1>
+        <Link href="/products">
+          <button className="mt-10 scale-125 btn-primary hover:scale-[1.3]">
+            Start Shopping
+          </button>
+        </Link>
+      </div>
+    </>
   );
 };
 

@@ -13,9 +13,9 @@ const IncreaseQuantityBtn = (props: any) => {
         const eventTarget = event.currentTarget;
         props.setCount((prev: number) => prev + 1);
         increaseCount(props.matchedProduct);
-        handleCookieChange('count', props.matchedProduct, true);
 
         if (productAlreadyInCart(props.matchedProduct, productContext)) {
+          handleCookieChange('count', props.matchedProduct, true);
           productContext.setChosenProducts((prev: any) => {
             const found = prev.find(
               (item: any) => item.id === props.matchedProduct.id,

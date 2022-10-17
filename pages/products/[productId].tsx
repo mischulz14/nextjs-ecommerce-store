@@ -19,7 +19,6 @@ const SingleProductPage = (props: any) => {
 
   useEffect(() => {
     productContext.setChosenProducts(props.foundCookies);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,7 +27,6 @@ const SingleProductPage = (props: any) => {
   const themeContext = useContext(ThemeContext);
   const [count, setCount] = useState(1);
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!props.matchedProduct) {
     return <ErrorPage />;
   }
@@ -96,6 +94,8 @@ const SingleProductPage = (props: any) => {
                 setUserMessage={setUserMessage}
                 matchedProduct={props.matchedProduct}
                 setRendered={setRendered}
+                count={count}
+                setCount={setCount}
               />
               <span data-test-id="product-quantity">{count}</span>
               <IncreaseQuantityBtn

@@ -17,7 +17,7 @@ const IncreaseQuantityInCartBtn = (props: any) => {
         });
         handleCookieChange('count', props.product, true);
       }}
-      className="mt-2 font-bold btn-secondary hover:text-gray-900"
+      className="mt-2 font-bold btn-secondary hover:text-gray-900 increase-btn-cart"
     >
       +
     </button>

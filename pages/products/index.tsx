@@ -20,7 +20,6 @@ export default function Products(props: IndexProps) {
 
   useEffect(() => {
     productContext.setChosenProducts(props.foundInCookies);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleFilter(event: any) {

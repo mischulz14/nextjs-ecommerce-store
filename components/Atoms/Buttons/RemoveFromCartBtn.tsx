@@ -16,7 +16,7 @@ const RemoveFromCartBtn = (props: any) => {
           ),
         );
       }}
-      className="absolute top-0 right-0 flex items-center justify-center w-6 h-6 btn-primary hover:scale-105"
+      className="remove-btn absolute top-0 right-0 flex items-center justify-center w-6 h-6 btn-primary hover:scale-105"
     >
       X
     </button>

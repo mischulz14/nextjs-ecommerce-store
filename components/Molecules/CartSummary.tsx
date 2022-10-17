@@ -37,13 +37,14 @@ const CartSummary = () => {
       <div className="relative flex items-center justify-center mt-14">
         <Link href="/checkout">
           <button
+            disabled={productContext.chosenProducts.length === 0}
             onClick={() => {
               productContext.setTotalPrice(
                 getTotalCost(productContext.chosenProducts),
               );
             }}
             data-test-id="cart-checkout"
-            className="mb-8 scale-110 btn-primary hover:scale-125 checkout "
+            className="mb-8 scale-110 btn-primary hover:scale-125 checkout-btn"
           >
             Checkout
           </button>
