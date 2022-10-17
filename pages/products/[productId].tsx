@@ -104,7 +104,7 @@ const SingleProductPage = (props: any) => {
                 onChange={(event) => setCount(Number(event.target.value))}
                 data-test-id="product-quantity"
                 placeholder="1"
-                className="w-10 h-10 mt-2 pb-1 pl-3 text-center flex justify-center items-center text-black dark:text-white bg-transparent border-2 border-black dark:border-slate-300 "
+                className="w-10 h-10 mt-2 pb-1 pl-3 text-center flex justify-center items-center text-black dark:text-white bg-transparent border-2 border-black dark:border-slate-300 cart-test"
               />
               <IncreaseQuantityBtn
                 setUserMessage={setUserMessage}
