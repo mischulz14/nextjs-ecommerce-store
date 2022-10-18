@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { ProductContext } from '../../context/ProductContext';
-import { addCookie } from '../../utils/cookies';
-import { productAlreadyInCart } from '../../utils/filter';
-import { showUserMessage } from '../../utils/userMessage';
+import { ProductContext } from '../../../context/ProductContext';
+import { addCookie } from '../../../utils/cookies';
+import { productAlreadyInCart } from '../../../utils/filter';
+import { showUserMessage } from '../../../utils/userMessage';
 
 const AddToCartBtn = (props: any) => {
   const productContext = useContext(ProductContext);

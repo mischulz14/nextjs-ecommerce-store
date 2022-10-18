@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
-import CartWagon from '../Buttons/CartWagon';
-import HamburgerBtn from '../Buttons/HamburgerBtn';
-import ToggleThemeBtn from '../Buttons/ToggleThemeBtn';
+import CartWagon from '../Atoms/Buttons/CartWagon';
+import HamburgerBtn from '../Atoms/Buttons/HamburgerBtn';
+import ToggleThemeBtn from '../Atoms/Buttons/ToggleThemeBtn';
 import SideNav from './SideNav';
 
 const Navbar = () => {

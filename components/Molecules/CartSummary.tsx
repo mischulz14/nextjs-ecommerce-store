@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useContext } from 'react';
-import { ProductContext } from '../context/ProductContext';
-import { getTotalCost } from '../utils/getTotal';
-import { Product } from '../utils/types';
+import { ProductContext } from '../../context/ProductContext';
+import { getTotalCost } from '../../utils/getTotal';
+import { Product } from '../../utils/types';
 
 const CartSummary = () => {
   const productContext = useContext(ProductContext);

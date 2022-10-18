@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import { useEffect, useState } from 'react';
-import Layout from '../components/Layout';
+import Layout from '../components/Organisms/Layout';
 
 function MyApp({ Component, pageProps }: any) {
   const [cookiesAccepted, setCookiesAccepted] = useState<any>(false);

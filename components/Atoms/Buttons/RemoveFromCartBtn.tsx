@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { ProductContext } from '../../context/ProductContext';
-import { removeCookie } from '../../utils/cookies';
+import { ProductContext } from '../../../context/ProductContext';
+import { removeCookie } from '../../../utils/cookies';
 
 const RemoveFromCartBtn = (props: any) => {
   const productContext = useContext(ProductContext);

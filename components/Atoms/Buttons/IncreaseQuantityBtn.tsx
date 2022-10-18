@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { ProductContext } from '../../context/ProductContext';
-import { handleCookieChange } from '../../utils/cookies';
-import { increaseCount } from '../../utils/count';
-import { productAlreadyInCart } from '../../utils/filter';
-import { showUserMessage } from '../../utils/userMessage';
+import { ProductContext } from '../../../context/ProductContext';
+import { handleCookieChange } from '../../../utils/cookies';
+import { increaseCount } from '../../../utils/count';
+import { productAlreadyInCart } from '../../../utils/filter';
+import { showUserMessage } from '../../../utils/userMessage';
 
 const IncreaseQuantityBtn = (props: any) => {
   const productContext = useContext(ProductContext);

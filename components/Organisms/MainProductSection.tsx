@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext } from 'react';
-import { ThemeContext } from '../context/ThemeContext';
-import { Product } from '../utils/types';
-import AddToCartBtn from './Buttons/AddToCartBtn';
-import ChangeColorsBtn from './Buttons/ChangeColorsBtn';
+import { ThemeContext } from '../../context/ThemeContext';
+import { Product } from '../../utils/types';
+import AddToCartBtn from '../Atoms/Buttons/AddToCartBtn';
+import ChangeColorsBtn from '../Atoms/Buttons/ChangeColorsBtn';
 
 const MainProductSection = (props: any) => {
   const themeContext = useContext(ThemeContext);
