@@ -1,7 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
 
-// TODO convert to TS
-
 const ThemeContext = createContext();
 
 function ThemeProvider(props) {

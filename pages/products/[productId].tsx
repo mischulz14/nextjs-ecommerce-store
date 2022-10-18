@@ -21,7 +21,6 @@ const SingleProductPage = (props: any) => {
     productContext.setChosenProducts(props.foundCookies);
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [rendered, setRendered] = useState(false);
   const [userMessage, setUserMessage] = useState('');
   const themeContext = useContext(ThemeContext);
@@ -37,6 +36,7 @@ const SingleProductPage = (props: any) => {
         <title>Single origami page</title>
         <meta name="description" content="origami single page" />
       </Head>
+      {rendered}
       <div className="flex flex-row">
         <div
           className={`card flex md:flex-row flex-col px-6 mb-2 min-w-[230px] overflow-y-scroll min-h-[750px] grow bg-white  transition-all  border dark:before:bg-slate-700 dark:bg-slate-700 dark:text-slate-200 dark:border-t-0 ${
@@ -115,7 +115,7 @@ const SingleProductPage = (props: any) => {
             <AddToCartBtn
               matchedProduct={props.matchedProduct}
               setUserMessage={setUserMessage}
-              setRendered={setRendered}
+              setRendered={productContext.setRenderComponent}
               count={count}
               setCount={setCount}
             />

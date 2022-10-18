@@ -1,14 +1,5 @@
 import { createContext, useState } from 'react';
 
-// interface ProductContextProps {
-//   chosenProducts: Array<never>;
-//   renderComponent: boolean;
-//   setChosenProducts: Dispatch<SetStateAction<never[]>>;
-//   setRenderComponent: Dispatch<SetStateAction<boolean>>;
-//   setTotalPrice: Dispatch<SetStateAction<number>>;
-//   totalPrice: number;
-// }
-
 // TODO convert to TS
 
 // const ProductContext = createContext<ProductContextProps>(undefined!);

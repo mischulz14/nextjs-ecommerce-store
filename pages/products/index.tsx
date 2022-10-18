@@ -18,10 +18,10 @@ export default function Products(props: IndexProps) {
   const [userMessage, setUserMessage] = useState('Added to cart!');
   const [showFilter, setShowFilter] = useState(false);
   const productContext = useContext(ProductContext);
+  const foundInCookies = props.foundInCookies;
 
   useEffect(() => {
-    productContext.setChosenProducts(props.foundInCookies);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    productContext.setChosenProducts(foundInCookies);
   }, []);
 
   function handleFilter(event: any) {
@@ -61,8 +61,9 @@ export default function Products(props: IndexProps) {
             filteredProducts={filteredProducts}
             userMessage={userMessage}
             setUserMessage={setUserMessage}
-            setRendered={setRendered}
+            setRendered={productContext.setRenderComponent}
             setCount={setCount}
+            count={count}
           />
         </div>
       </div>
