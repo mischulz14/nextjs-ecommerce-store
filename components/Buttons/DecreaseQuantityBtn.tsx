@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { ProductContext } from '../../../context/ProductContext';
-import { handleCookieChange } from '../../../utils/cookies';
-import { decreaseCount } from '../../../utils/count';
-import { showUserMessage } from '../../../utils/userMessage';
+import { ProductContext } from '../../context/ProductContext';
+import { handleCookieChange } from '../../utils/cookies';
+import { decreaseCount } from '../../utils/count';
+import { showUserMessage } from '../../utils/userMessage';
 
 const DecreaseQuantityBtn = (props: any) => {
   const productContext = useContext(ProductContext);

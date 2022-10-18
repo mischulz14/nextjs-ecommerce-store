@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
-import AddToCartBtn from '../../components/Atoms/Buttons/AddToCartBtn';
-import ChangeColorsBtn from '../../components/Atoms/Buttons/ChangeColorsBtn';
-import DecreaseQuantityBtn from '../../components/Atoms/Buttons/DecreaseQuantityBtn';
-import IncreaseQuantityBtn from '../../components/Atoms/Buttons/IncreaseQuantityBtn';
-import ProductDescription from '../../components/Atoms/TextElements/ProductDescription';
+import AddToCartBtn from '../../components/Buttons/AddToCartBtn';
+import ChangeColorsBtn from '../../components/Buttons/ChangeColorsBtn';
+import DecreaseQuantityBtn from '../../components/Buttons/DecreaseQuantityBtn';
+import IncreaseQuantityBtn from '../../components/Buttons/IncreaseQuantityBtn';
+import ProductDescription from '../../components/TextElements/ProductDescription';
 import { ProductContext } from '../../context/ProductContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import { getServerSidePropsAndUpdateSingleProduct } from '../../utils/serverSidePropsSingleProduct';

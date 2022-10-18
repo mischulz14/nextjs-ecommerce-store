@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Dispatch, SetStateAction } from 'react';
-import CartWagon from '../Atoms/Buttons/CartWagon';
-import ToggleThemeBtn from '../Atoms/Buttons/ToggleThemeBtn';
+import CartWagon from '../Buttons/CartWagon';
+import ToggleThemeBtn from '../Buttons/ToggleThemeBtn';
 
 const SideNav = (props: {
   showSideNav: boolean;

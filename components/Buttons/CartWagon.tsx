@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Dispatch, SetStateAction, useContext } from 'react';
-import { ProductContext } from '../../../context/ProductContext';
-import { ThemeContext } from '../../../context/ThemeContext';
-import { getTotalQuantity } from '../../../utils/getTotal';
+import { ProductContext } from '../../context/ProductContext';
+import { ThemeContext } from '../../context/ThemeContext';
+import { getTotalQuantity } from '../../utils/getTotal';
 
 const CartWagon = (props: {
   setShowSideNav: Dispatch<SetStateAction<boolean>>;
